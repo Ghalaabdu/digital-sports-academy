@@ -1,0 +1,19 @@
+# أسرار وإعدادات محلية — لا ترفعيها أبداً
+.env
+
+# بيئة Python
+.venv/
+__pycache__/
+*.pyc
+
+# قاعدة البيانات المحلية والملفات المرفوعة
+db.sqlite3
+media/*
+!media/.gitkeep
+staticfiles/
+
+# سجلات الاختبار
+setup_log.txt
+test_log.txt
+connections_log.txt
+.DS_Store
