@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<body style="margin:0;padding:0;background:#f1f5f9;font-family:Tahoma,Arial,sans-serif;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f1f5f9;padding:32px 12px;">
+    <tr><td align="center">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:520px;background:#ffffff;border-radius:20px;overflow:hidden;">
+        <tr><td style="background:linear-gradient(90deg,#7c3aed,#06b6d4);background-color:#7c3aed;padding:28px;text-align:center;color:#ffffff;">
+          <div style="font-size:22px;font-weight:bold;">أكاديمية الرياضة الرقمية</div>
+          <div style="font-size:13px;opacity:.9;margin-top:4px;">بيئة رياضية مدرسية ذكية</div>
+        </td></tr>
+        <tr><td style="padding:32px 28px;text-align:right;color:#0f172a;">
+          <p style="font-size:16px;margin:0 0 12px;">مرحباً {{ name }} 👋</p>
+          <p style="font-size:15px;line-height:1.8;margin:0 0 20px;color:#334155;">
+            {% if purpose == "verify" %}شكراً لتسجيلكِ في المنصة. استخدمي الرمز التالي لتأكيد بريدكِ الإلكتروني وتفعيل حسابكِ:{% else %}وصلنا طلب لإعادة تعيين كلمة المرور لحسابكِ. استخدمي الرمز التالي:{% endif %}
+          </p>
+          <div style="text-align:center;margin:24px 0;">
+            <span dir="ltr" style="display:inline-block;font-size:34px;letter-spacing:10px;font-weight:bold;color:#5b21b6;background:#f5f3ff;border:2px dashed #c4b5fd;border-radius:14px;padding:14px 26px;">{{ code }}</span>
+          </div>
+          <p style="font-size:13px;color:#64748b;line-height:1.8;margin:0;">الرمز صالح لمدة {{ minutes }} دقيقة. إذا لم تطلبي هذا الرمز فتجاهلي هذه الرسالة، ولن يتغير شيء في حسابكِ.</p>
+        </td></tr>
+        <tr><td style="background:#f8fafc;padding:16px;text-align:center;font-size:12px;color:#94a3b8;">© أكاديمية الرياضة الرقمية — رسالة آلية، لا تردّي عليها</td></tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>

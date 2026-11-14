@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="scroll-smooth">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="Ghala Abdullah — غلا عبدالله">
+<title>أكاديمية الرياضة الرقمية</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/lucide@0.344.0/dist/umd/lucide.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+tailwind.config = {
+  theme: { extend: {
+    fontFamily: { sans: ['Tajawal','sans-serif'] },
+    colors: { brand: { teal:'#06b6d4', tealDark:'#0891b2', purple:'#7c3aed', purpleDark:'#5b21b6', dark:'#0f172a' } },
+    keyframes: { float: { '0%,100%':{transform:'translateY(0)'}, '50%':{transform:'translateY(-10px)'} },
+                 fadeUp: { '0%':{opacity:0,transform:'translateY(14px)'}, '100%':{opacity:1,transform:'translateY(0)'} } },
+    animation: { float:'float 4s ease-in-out infinite', fadeUp:'fadeUp .45s ease-out both' }
+  } }
+}
+</script>
+<style>
+  body{font-family:'Tajawal',sans-serif}
+  .glass{background:rgba(255,255,255,.08);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.15)}
+  .card{background:#fff;border:1px solid rgb(226 232 240 / .8);border-radius:1.5rem;box-shadow:0 1px 2px rgb(0 0 0 / .04)}
+  .grad{background-image:linear-gradient(to left,#06b6d4,#7c3aed)}
+  .grad-text{background-image:linear-gradient(to left,#7c3aed,#06b6d4);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;font-weight:700;border-radius:.875rem;transition:all .2s}
+  .btn:active{transform:scale(.97)}
+  .btn-primary{color:#fff;background-image:linear-gradient(to left,#06b6d4,#7c3aed);box-shadow:0 6px 18px -6px rgb(124 58 237 / .45)}
+  .btn-primary:hover{filter:brightness(1.07)}
+  .btn-ghost{background:#f1f5f9;color:#334155}.btn-ghost:hover{background:#e2e8f0}
+  .input{width:100%;padding:.75rem 1rem;border-radius:.875rem;background:#f8fafc;border:1px solid #e2e8f0;font-size:.9rem;outline:none;transition:border .2s, box-shadow .2s}
+  .input:focus{border-color:#7c3aed;box-shadow:0 0 0 3px rgb(124 58 237 / .12);background:#fff}
+  .modal{position:fixed;inset:0;z-index:60;background:rgb(15 23 42 / .7);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:1rem}
+  .modal.hidden{display:none}
+  .modal-box{background:#fff;width:100%;border-radius:1.5rem;box-shadow:0 25px 50px -12px rgb(0 0 0 / .35);max-height:90vh;overflow-y:auto;animation:fadeUp .3s ease-out both}
+  .chip{padding:.4rem .9rem;border-radius:999px;font-size:.78rem;font-weight:700;white-space:nowrap;transition:all .2s}
+  .tab-on{color:#fff;background-image:linear-gradient(to left,#06b6d4,#7c3aed);box-shadow:0 4px 12px -4px rgb(124 58 237 / .4)}
+  .tab-off{color:#475569}.tab-off:hover{color:#0f172a}
+  .section-title{font-weight:900;color:#0f172a;font-size:1.875rem;line-height:1.25}
+  @media (min-width:640px){.section-title{font-size:2.25rem}}
+  .kicker{display:inline-flex;align-items:center;gap:.4rem;padding:.35rem 1rem;border-radius:999px;font-weight:800;font-size:.8rem}
+  .ring-bg{stroke:#e2e8f0}.ring-fg{transition:stroke-dashoffset 1s ease}
+  .chat-md strong{color:#5b21b6}
+  .opt{width:100%;text-align:right;padding:.85rem 1rem;border-radius:1rem;border:2px solid #e2e8f0;font-weight:700;transition:all .15s;background:#fff}
+  .opt:hover:not(:disabled){border-color:#7c3aed;background:#faf5ff}
+  .opt.correct{border-color:#10b981;background:#ecfdf5;color:#065f46}
+  .opt.wrong{border-color:#ef4444;background:#fef2f2;color:#991b1b}
+  ::-webkit-scrollbar{width:8px;height:8px}::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:8px}
+  .no-scrollbar::-webkit-scrollbar{display:none}
+  video{background:#0f172a}
+  .typing span{display:inline-block;width:6px;height:6px;border-radius:50%;background:#7c3aed;margin:0 2px;animation:bl 1.2s infinite}
+  .typing span:nth-child(2){animation-delay:.2s}.typing span:nth-child(3){animation-delay:.4s}
+  @keyframes bl{0%,80%,100%{opacity:.25}40%{opacity:1}}
+  .view{display:none}.view.active{display:block;animation:fadeUp .35s ease-out both}
+  .nav-link{display:inline-flex;align-items:center;gap:.4rem;padding:.55rem .75rem;border-radius:.85rem;color:#475569;transition:all .2s;white-space:nowrap}
+  .nav-link:hover{background:#f5f3ff;color:#7c3aed}
+  .nav-link.nav-on{color:#fff;background-image:linear-gradient(to left,#06b6d4,#7c3aed);box-shadow:0 4px 12px -4px rgb(124 58 237 / .45)}
+</style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased overflow-x-hidden selection:bg-cyan-400 selection:text-white">
+
+<!-- ===================== NAVBAR ===================== -->
+<header class="sticky top-0 z-40 bg-white/85 backdrop-blur-md border-b border-slate-200/80 shadow-sm">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center h-20 gap-3">
+      <div class="flex items-center gap-3 shrink-0">
+        <img src="/static/img/moe-logo.png" alt="وزارة التعليم" class="h-10 sm:h-12 w-auto lg:hidden xl:block">
+        <span class="h-10 w-px bg-slate-200 lg:hidden xl:block"></span>
+        <a href="#home" class="flex items-center gap-3 group">
+        <div class="w-12 h-12 rounded-2xl grad flex items-center justify-center text-white shadow-lg shadow-purple-500/25 group-hover:scale-105 transition-transform"><i data-lucide="footprints" class="w-6 h-6"></i></div>
+        <div><span class="block text-lg font-black grad-text leading-tight">أكاديمية الرياضة الرقمية</span><span class="block text-[11px] font-medium text-slate-500 xl:block lg:hidden">بيئة رياضية مدرسية ذكية</span></div>
+      </a>
+      </div>
+      <nav class="hidden lg:flex items-center gap-0.5 font-bold text-[13px] xl:text-sm">
+        <a href="#home" data-nav="home" class="nav-link"><i data-lucide="house" class="w-4 h-4"></i><span>الرئيسية</span></a>
+        <a href="#about" data-nav="about" class="nav-link"><i data-lucide="info" class="w-4 h-4"></i><span>عن المنصة</span></a>
+        <a href="#steps" data-nav="steps" class="nav-link"><i data-lucide="footprints" class="w-4 h-4"></i><span>تحدي الخطوات</span></a>
+        <a href="#lab" data-nav="lab" class="nav-link"><i data-lucide="video" class="w-4 h-4"></i><span>مختبر التحليل</span></a>
+        <a href="#qr" data-nav="qr" class="nav-link"><i data-lucide="qr-code" class="w-4 h-4"></i><span>الملعب الرقمي</span></a>
+        <a href="#quiz" data-nav="quiz" class="nav-link"><i data-lucide="gamepad-2" class="w-4 h-4"></i><span>المسابقة</span></a>
+        <a href="#podcast" data-nav="podcast" class="nav-link"><i data-lucide="mic" class="w-4 h-4"></i><span>البودكاست</span></a>
+      </nav>
+      <div class="flex items-center gap-2">
+        <div id="authNavbarArea"></div>
+        <button onclick="toggleMobileMenu()" class="lg:hidden p-2.5 rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200" aria-label="القائمة"><i data-lucide="menu" class="w-6 h-6"></i></button>
+      </div>
+    </div>
+  </div>
+  <div id="mobileMenu" class="hidden lg:hidden bg-white border-t border-slate-100 px-4 pt-3 pb-5 grid grid-cols-2 gap-1.5 shadow-xl">
+    <a href="#home" data-nav="home" class="nav-link !justify-start !py-3 font-bold"><i data-lucide="house" class="w-5 h-5"></i>الرئيسية</a>
+    <a href="#about" data-nav="about" class="nav-link !justify-start !py-3 font-bold"><i data-lucide="info" class="w-5 h-5"></i>عن المنصة</a>
+    <a href="#steps" data-nav="steps" class="nav-link !justify-start !py-3 font-bold"><i data-lucide="footprints" class="w-5 h-5"></i>تحدي الخطوات</a>
+    <a href="#lab" data-nav="lab" class="nav-link !justify-start !py-3 font-bold"><i data-lucide="video" class="w-5 h-5"></i>مختبر التحليل</a>
+    <a href="#qr" data-nav="qr" class="nav-link !justify-start !py-3 font-bold"><i data-lucide="qr-code" class="w-5 h-5"></i>الملعب الرقمي</a>
+    <a href="#quiz" data-nav="quiz" class="nav-link !justify-start !py-3 font-bold"><i data-lucide="gamepad-2" class="w-5 h-5"></i>المسابقة</a>
+    <a href="#podcast" data-nav="podcast" class="nav-link !justify-start !py-3 font-bold"><i data-lucide="mic" class="w-5 h-5"></i>البودكاست</a>
+  </div>
+</header>
+
+<main>
+<!-- ===================== VIEW: HOME ===================== -->
+<div class="view" data-view="home">
+<section id="hero" class="relative overflow-hidden text-white min-h-[82vh] flex items-center">
+  <img src="/static/img/techsport.png" alt="عدّاءة مع مؤشرات رقمية للأداء الرياضي" class="absolute inset-0 w-full h-full object-cover object-[72%_center]">
+  <div class="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-slate-950/60 to-slate-950/10"></div>
+  <div class="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-slate-950/80 to-transparent"></div>
+  <div class="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <div class="max-w-xl lg:mr-auto text-center lg:text-right space-y-6">
+      <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 backdrop-blur text-cyan-300 text-sm font-bold">
+        <span class="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-ping"></span> مبادرة التحول الرقمي في التربية البدنية
+      </div>
+      <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black leading-tight drop-shadow-lg">أكاديمية <span class="bg-gradient-to-l from-cyan-300 via-cyan-200 to-purple-300 bg-clip-text text-transparent">الرياضة الرقمية</span></h1>
+      <p class="text-sm sm:text-base font-bold text-slate-200 flex items-center justify-center lg:justify-start gap-1.5 -mt-3"><i data-lucide="school" class="w-4 h-4 text-cyan-300"></i> ثانوية ٣٥ بجدة</p>
+      <p class="text-3xl sm:text-4xl font-black leading-snug pt-2 drop-shadow-lg">كل خطوة تقرّبكِ من <span class="bg-gradient-to-l from-cyan-300 to-purple-300 bg-clip-text text-transparent">نسختكِ الأقوى</span> 💪</p>
+      <p class="text-base text-slate-200 font-bold -mt-2">تحرّكي بذكاء… وتألّقي بطاقتكِ</p>
+      <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 pt-1">
+        <a href="#about" class="w-full sm:w-auto px-8 py-4 rounded-2xl font-extrabold bg-gradient-to-r from-cyan-400 to-cyan-500 text-slate-950 hover:brightness-110 shadow-lg shadow-cyan-500/30 flex items-center justify-center gap-2.5 transition-all hover:-translate-y-0.5"><i data-lucide="info" class="w-5 h-5"></i> تعرّفي على المنصة</a>
+        <button onclick="toggleCoach(true)" class="w-full sm:w-auto px-7 py-4 rounded-2xl font-bold bg-white/10 hover:bg-white/20 border border-white/25 backdrop-blur flex items-center justify-center gap-2.5 transition-all hover:-translate-y-0.5"><i data-lucide="sparkles" class="w-5 h-5 text-cyan-300"></i> تحدثي مع المدربة الذكية</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="about" class="py-16 bg-slate-50 scroll-mt-24">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center max-w-3xl mx-auto mb-12">
+      <span class="kicker bg-purple-50 text-brand-purple mb-3"><i data-lucide="info" class="w-4 h-4"></i> تعرّفي علينا</span>
+      <h2 class="section-title mb-4">عن المنصة</h2>
+      <p class="text-slate-600 text-lg leading-relaxed"><b class="text-slate-800">أكاديمية الرياضة الرقمية</b> منصة مدرسية تفاعلية لطالبات المرحلة الثانوية، توظّف التقنية والذكاء الاصطناعي في حصة التربية البدنية؛ لتعزيز نمط الحياة الصحي، وتطوير المهارات الرياضية، ورفع تفاعل الطالبات داخل المدرسة وخارجها.</p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+      <div class="card p-6"><div class="w-12 h-12 rounded-2xl bg-purple-50 text-brand-purple flex items-center justify-center mb-4"><i data-lucide="target" class="w-6 h-6"></i></div><h3 class="text-lg font-black text-slate-900 mb-2">رسالتنا</h3><p class="text-sm text-slate-600 leading-relaxed">تحويل الصالة الرياضية إلى بيئة تعلّم ذكية وممتعة تقيس النشاط وتطوّر الأداء وتنشر الثقافة الصحية.</p></div>
+      <div class="card p-6"><div class="w-12 h-12 rounded-2xl bg-cyan-50 text-brand-tealDark flex items-center justify-center mb-4"><i data-lucide="eye" class="w-6 h-6"></i></div><h3 class="text-lg font-black text-slate-900 mb-2">رؤيتنا</h3><p class="text-sm text-slate-600 leading-relaxed">جيل من الطالبات النشيطات الواعيات صحياً، يوظّفن التقنية لبناء عادات رياضية مستدامة، تماشياً مع مستهدفات جودة الحياة.</p></div>
+      <div class="card p-6"><div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center mb-4"><i data-lucide="heart-handshake" class="w-6 h-6"></i></div><h3 class="text-lg font-black text-slate-900 mb-2">لمن المنصة؟</h3><p class="text-sm text-slate-600 leading-relaxed">لطالبات المرحلة الثانوية بإشراف معلمات التربية البدنية والتقنية، مع حساب شخصي يحفظ إنجازات كل طالبة.</p></div>
+    </div>
+    <h3 class="text-2xl font-black text-slate-900 mb-5 text-center">خدمات المنصة</h3>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      <a href="#steps" class="card p-5 flex gap-4 hover:shadow-lg hover:-translate-y-0.5 transition group"><div class="w-12 h-12 shrink-0 rounded-2xl bg-cyan-50 text-brand-tealDark flex items-center justify-center group-hover:bg-brand-teal group-hover:text-white transition"><i data-lucide="footprints" class="w-6 h-6"></i></div><div><h4 class="font-black text-slate-900">تحدي الخطوات الذكي</h4><p class="text-sm text-slate-600 mt-1">تسجيل النشاط اليومي ولوحة شرف للطالبات والفصول.</p></div></a>
+      <a href="#lab" class="card p-5 flex gap-4 hover:shadow-lg hover:-translate-y-0.5 transition group"><div class="w-12 h-12 shrink-0 rounded-2xl bg-purple-50 text-brand-purple flex items-center justify-center group-hover:bg-brand-purple group-hover:text-white transition"><i data-lucide="video" class="w-6 h-6"></i></div><div><h4 class="font-black text-slate-900">مختبر تحليل الأداء</h4><p class="text-sm text-slate-600 mt-1">تحليل المهارات بالحركة البطيئة وقياس التحسن قبل وبعد.</p></div></a>
+      <a href="#qr" class="card p-5 flex gap-4 hover:shadow-lg hover:-translate-y-0.5 transition group"><div class="w-12 h-12 shrink-0 rounded-2xl bg-cyan-50 text-brand-tealDark flex items-center justify-center group-hover:bg-brand-teal group-hover:text-white transition"><i data-lucide="qr-code" class="w-6 h-6"></i></div><div><h4 class="font-black text-slate-900">الملعب الرقمي QR</h4><p class="text-sm text-slate-600 mt-1">تحديات حركية ومعرفية فورية مقابل النقاط.</p></div></a>
+      <a href="#quiz" class="card p-5 flex gap-4 hover:shadow-lg hover:-translate-y-0.5 transition group"><div class="w-12 h-12 shrink-0 rounded-2xl bg-purple-50 text-brand-purple flex items-center justify-center group-hover:bg-brand-purple group-hover:text-white transition"><i data-lucide="gamepad-2" class="w-6 h-6"></i></div><div><h4 class="font-black text-slate-900">المسابقة الرياضية الإلكترونية</h4><p class="text-sm text-slate-600 mt-1">أسئلة في قوانين الألعاب والتغذية والإسعافات الأولية.</p></div></a>
+      <a href="#podcast" class="card p-5 flex gap-4 hover:shadow-lg hover:-translate-y-0.5 transition group"><div class="w-12 h-12 shrink-0 rounded-2xl bg-cyan-50 text-brand-tealDark flex items-center justify-center group-hover:bg-brand-teal group-hover:text-white transition"><i data-lucide="mic" class="w-6 h-6"></i></div><div><h4 class="font-black text-slate-900">بودكاست الطالبات</h4><p class="text-sm text-slate-600 mt-1">حلقات صوتية قصيرة عن الصحة والرياضة.</p></div></a>
+      <a href="#" onclick="event.preventDefault();toggleCoach(true)" class="card p-5 flex gap-4 hover:shadow-lg hover:-translate-y-0.5 transition group"><div class="w-12 h-12 shrink-0 rounded-2xl grad text-white flex items-center justify-center"><i data-lucide="bot" class="w-6 h-6"></i></div><div><h4 class="font-black text-slate-900">المدربة الذكية</h4><p class="text-sm text-slate-600 mt-1">إجابات فورية عن التمارين والتغذية والإسعافات.</p></div></a>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- ===================== VIEW: STEPS ===================== -->
+<div class="view" data-view="steps">
+  <div class="grad text-white"><div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center gap-2 text-sm font-bold"><a href="#home" class="opacity-80 hover:opacity-100 flex items-center gap-1"><i data-lucide="house" class="w-4 h-4"></i> الرئيسية</a><i data-lucide="chevron-left" class="w-4 h-4 opacity-70"></i><span class="flex items-center gap-1.5"><i data-lucide="footprints" class="w-4 h-4"></i>تحدي الخطوات الذكي</span></div></div>
+<!-- ===================== 1. STEPS ===================== -->
+<section id="steps" class="py-16 bg-white scroll-mt-24">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10">
+      <div>
+        <span class="kicker bg-cyan-50 text-brand-tealDark"><i data-lucide="watch" class="w-4 h-4"></i> المحطة 1</span>
+        <h2 class="section-title mt-2">تحدي الخطوات الذكي</h2>
+        <p class="text-slate-600 mt-2">زامني ساعتكِ الذكية أو أدخلي خطواتكِ يدوياً، وتابعي ترتيبكِ وترتيب فصلكِ مباشرة.</p>
+      </div>
+    </div>
+    <div id="stepsArea"></div>
+  </div>
+</section>
+<!-- ===================== LEADERBOARD ===================== -->
+<section id="leaderboard" class="pb-16 relative z-20 scroll-mt-24">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="bg-white rounded-3xl shadow-xl border border-slate-100 p-6 sm:p-10">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
+        <div>
+          <div class="inline-flex items-center gap-2 text-brand-purple font-bold text-sm mb-1"><i data-lucide="trophy" class="w-4 h-4 text-amber-500"></i> تحدي الخطوات الذكي — ترتيب مباشر</div>
+          <h2 class="text-2xl sm:text-3xl font-black text-slate-900">لوحة المتصدرين والشرف</h2>
+        </div>
+        <div class="inline-flex p-1.5 rounded-2xl bg-slate-100 border border-slate-200 self-start md:self-auto overflow-x-auto no-scrollbar">
+          <button data-lb="students" onclick="switchLeaderboard('students')" class="lb-btn px-4 py-2.5 rounded-xl font-bold text-sm whitespace-nowrap">بطلات الخطوات</button>
+          <button data-lb="classes" onclick="switchLeaderboard('classes')" class="lb-btn px-4 py-2.5 rounded-xl font-bold text-sm whitespace-nowrap">منافسة الفصول</button>
+          <button data-lb="qr" onclick="switchLeaderboard('qr')" class="lb-btn px-4 py-2.5 rounded-xl font-bold text-sm whitespace-nowrap">نقاط التحديات</button>
+        </div>
+      </div>
+      <div id="podium" class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6"></div>
+      <div id="lbList" class="divide-y divide-slate-100 rounded-2xl border border-slate-100 overflow-hidden"></div>
+    </div>
+  </div>
+</section>
+</div>
+
+<div class="view" data-view="lab">
+  <div class="grad text-white"><div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center gap-2 text-sm font-bold"><a href="#home" class="opacity-80 hover:opacity-100 flex items-center gap-1"><i data-lucide="house" class="w-4 h-4"></i> الرئيسية</a><i data-lucide="chevron-left" class="w-4 h-4 opacity-70"></i><span class="flex items-center gap-1.5"><i data-lucide="video" class="w-4 h-4"></i>مختبر تحليل الأداء</span></div></div>
+<!-- ===================== 2. LAB ===================== -->
+<section id="lab" class="py-16 scroll-mt-24">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="mb-10">
+      <span class="kicker bg-purple-50 text-brand-purple"><i data-lucide="video" class="w-4 h-4"></i> المحطة 2</span>
+      <h2 class="section-title mt-2">مختبر تحليل الأداء الرياضي</h2>
+      <p class="text-slate-600 mt-2">ارفعي مقطع الأداء «قبل» و«بعد» التدريب، شغّليهما بالحركة البطيئة جنباً إلى جنب، وقيّمي المهارة وفق معايير فنية واضحة.</p>
+    </div>
+    <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
+      <div class="lg:col-span-3 card p-5 sm:p-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <div class="flex items-center justify-between mb-2"><span class="font-black text-slate-800">قبل التدريب</span><span class="chip bg-slate-100 text-slate-600">القياس القبلي</span></div>
+            <div class="relative aspect-video rounded-2xl overflow-hidden border border-slate-200">
+              <video id="vidBefore" class="w-full h-full object-contain" playsinline muted></video>
+              <label id="phBefore" class="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-slate-900 text-slate-300 cursor-pointer hover:bg-slate-800 transition">
+                <i data-lucide="upload" class="w-8 h-8"></i><span class="text-sm font-bold">اختاري مقطع الفيديو</span>
+                <input type="file" accept="video/*" class="hidden" onchange="loadVideo(event,'Before')">
+              </label>
+            </div>
+          </div>
+          <div>
+            <div class="flex items-center justify-between mb-2"><span class="font-black text-slate-800">بعد التدريب</span><span class="chip bg-cyan-50 text-brand-tealDark">القياس البعدي</span></div>
+            <div class="relative aspect-video rounded-2xl overflow-hidden border border-slate-200">
+              <video id="vidAfter" class="w-full h-full object-contain" playsinline muted></video>
+              <label id="phAfter" class="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-slate-900 text-slate-300 cursor-pointer hover:bg-slate-800 transition">
+                <i data-lucide="upload" class="w-8 h-8"></i><span class="text-sm font-bold">اختاري مقطع الفيديو</span>
+                <input type="file" accept="video/*" class="hidden" onchange="loadVideo(event,'After')">
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="mt-5 flex flex-wrap items-center gap-2">
+          <button onclick="labStep(-1)" class="btn btn-ghost px-3 py-2.5" title="إطار للخلف"><i data-lucide="skip-forward" class="w-4 h-4"></i></button>
+          <button id="labPlayBtn" onclick="labTogglePlay()" class="btn btn-primary px-5 py-2.5"><i data-lucide="play" class="w-4 h-4"></i> تشغيل متزامن</button>
+          <button onclick="labStep(1)" class="btn btn-ghost px-3 py-2.5" title="إطار للأمام"><i data-lucide="skip-back" class="w-4 h-4"></i></button>
+          <div class="h-8 w-px bg-slate-200 mx-1"></div>
+          <span class="text-xs font-bold text-slate-500">السرعة:</span>
+          <div class="inline-flex p-1 rounded-xl bg-slate-100" id="speedBtns">
+            <button onclick="labSpeed(0.25)" data-s="0.25" class="px-3 py-1.5 rounded-lg text-xs font-bold">0.25×</button>
+            <button onclick="labSpeed(0.5)" data-s="0.5" class="px-3 py-1.5 rounded-lg text-xs font-bold">0.5×</button>
+            <button onclick="labSpeed(1)" data-s="1" class="px-3 py-1.5 rounded-lg text-xs font-bold">1×</button>
+          </div>
+          <button onclick="labReset()" class="btn btn-ghost px-3 py-2.5 mr-auto text-xs"><i data-lucide="rotate-ccw" class="w-4 h-4"></i> إعادة</button>
+        </div>
+        <input id="labSeek" type="range" min="0" max="1000" value="0" class="w-full mt-4 accent-violet-600" oninput="labSeek(this.value)">
+        <p class="text-xs text-slate-400 mt-2">المقاطع تبقى على جهازكِ ولا تُرفع إلى أي خادم.</p>
+      </div>
+      <div class="lg:col-span-2 card p-5 sm:p-6">
+        <label class="block text-xs font-bold text-slate-700 mb-2">المهارة المراد تحليلها</label>
+        <select id="labSkill" class="input mb-4" onchange="renderLabCriteria()"></select>
+        <div class="grid grid-cols-[1fr_auto_auto] gap-x-3 gap-y-2 items-center text-sm" id="labCriteria"></div>
+        <div class="mt-5 grid grid-cols-3 gap-2 text-center">
+          <div class="rounded-2xl bg-slate-50 border border-slate-200 p-3"><div class="text-[11px] font-bold text-slate-500">قبل</div><div id="labScoreB" class="text-xl font-black text-slate-800">0%</div></div>
+          <div class="rounded-2xl bg-cyan-50 border border-cyan-200 p-3"><div class="text-[11px] font-bold text-brand-tealDark">بعد</div><div id="labScoreA" class="text-xl font-black text-brand-tealDark">0%</div></div>
+          <div class="rounded-2xl bg-emerald-50 border border-emerald-200 p-3"><div class="text-[11px] font-bold text-emerald-700">التحسن</div><div id="labImp" dir="ltr" class="text-xl font-black text-emerald-700">0%</div></div>
+        </div>
+        <textarea id="labNote" rows="2" class="input mt-4" placeholder="ملاحظات المعلمة أو الطالبة (اختياري)"></textarea>
+        <button onclick="saveLabResult()" class="btn btn-primary w-full py-3 mt-3"><i data-lucide="save" class="w-4 h-4"></i> حفظ التقرير في ملفي</button>
+        <div id="labHistory" class="mt-4 space-y-2"></div>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+
+<div class="view" data-view="qr">
+  <div class="grad text-white"><div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center gap-2 text-sm font-bold"><a href="#home" class="opacity-80 hover:opacity-100 flex items-center gap-1"><i data-lucide="house" class="w-4 h-4"></i> الرئيسية</a><i data-lucide="chevron-left" class="w-4 h-4 opacity-70"></i><span class="flex items-center gap-1.5"><i data-lucide="qr-code" class="w-4 h-4"></i>الملعب الرقمي QR</span></div></div>
+<!-- ===================== 3. QR ===================== -->
+<section id="qr" class="py-16 bg-white scroll-mt-24">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10">
+      <div>
+        <span class="kicker bg-cyan-50 text-brand-tealDark"><i data-lucide="qr-code" class="w-4 h-4"></i> المحطة 3</span>
+        <h2 class="section-title mt-2">الملعب الرقمي QR</h2>
+        <p class="text-slate-600 mt-2">رموز QR موزعة في أركان الصالة. امسحي الرمز أو أدخلي كوده لفتح التحدي واكسبي النقاط.</p>
+      </div>
+      <form onsubmit="qrByCode(event)" class="flex gap-2 w-full md:w-auto">
+        <input id="qrCodeInput" class="input md:w-56 font-mono text-left" dir="ltr" placeholder="DSA-QR-01">
+        <button class="btn btn-primary px-5"><i data-lucide="scan-line" class="w-4 h-4"></i> فتح</button>
+      </form>
+    </div>
+    <div id="qrGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5"></div>
+  </div>
+</section>
+</div>
+
+<div class="view" data-view="quiz">
+  <div class="grad text-white"><div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center gap-2 text-sm font-bold"><a href="#home" class="opacity-80 hover:opacity-100 flex items-center gap-1"><i data-lucide="house" class="w-4 h-4"></i> الرئيسية</a><i data-lucide="chevron-left" class="w-4 h-4 opacity-70"></i><span class="flex items-center gap-1.5"><i data-lucide="gamepad-2" class="w-4 h-4"></i>المسابقة الرياضية الإلكترونية</span></div></div>
+<!-- ===================== 5. QUIZ ===================== -->
+<section id="quiz" class="py-16 scroll-mt-24">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-10">
+      <span class="kicker bg-amber-50 text-amber-700"><i data-lucide="gamepad-2" class="w-4 h-4"></i> المحطة 5</span>
+      <h2 class="section-title mt-2">المسابقة الرياضية الإلكترونية</h2>
+      <p class="text-slate-600 mt-2">10 أسئلة عن قوانين الألعاب والتغذية والإسعافات الأولية — 20 ثانية لكل سؤال.</p>
+    </div>
+    <div id="quizBox" class="card p-6 sm:p-8"></div>
+  </div>
+</section>
+</div>
+
+<div class="view" data-view="podcast">
+  <div class="grad text-white"><div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center gap-2 text-sm font-bold"><a href="#home" class="opacity-80 hover:opacity-100 flex items-center gap-1"><i data-lucide="house" class="w-4 h-4"></i> الرئيسية</a><i data-lucide="chevron-left" class="w-4 h-4 opacity-70"></i><span class="flex items-center gap-1.5"><i data-lucide="mic" class="w-4 h-4"></i>بودكاست الطالبات</span></div></div>
+<section class="py-16 min-h-[60vh]">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-10">
+      <span class="kicker bg-indigo-50 text-indigo-700"><i data-lucide="mic" class="w-4 h-4"></i> المحطة 6</span>
+      <h2 class="section-title mt-2">بودكاست الطالبات</h2>
+      <p class="text-slate-600 mt-2">حلقات صوتية قصيرة من إعداد الطالبات حول الصحة والرياضة.</p>
+    </div>
+    <div class="card p-10 sm:p-14 text-center border-dashed border-2 bg-gradient-to-br from-white to-purple-50/40">
+      <div class="relative w-24 h-24 mx-auto mb-6"><span class="absolute inset-0 rounded-full grad opacity-20 animate-ping"></span><div class="relative w-24 h-24 rounded-full grad text-white flex items-center justify-center shadow-xl"><i data-lucide="headphones" class="w-11 h-11"></i></div></div>
+      <h3 class="text-2xl font-black text-slate-900 mb-2">الحلقات قادمة قريباً 🎙️</h3>
+      <p class="text-slate-600 max-w-md mx-auto leading-relaxed">نعمل حالياً على اختيار مواضيع الحلقات، وستُضاف هنا فور جاهزيتها. ترقّبي أولى حلقات بودكاست الأكاديمية!</p>
+      <div class="flex items-end justify-center gap-1.5 h-10 mt-8 opacity-60"><span class="w-1.5 rounded-full grad" style="height:30%"></span><span class="w-1.5 rounded-full grad" style="height:60%"></span><span class="w-1.5 rounded-full grad" style="height:45%"></span><span class="w-1.5 rounded-full grad" style="height:90%"></span><span class="w-1.5 rounded-full grad" style="height:70%"></span><span class="w-1.5 rounded-full grad" style="height:40%"></span><span class="w-1.5 rounded-full grad" style="height:80%"></span><span class="w-1.5 rounded-full grad" style="height:55%"></span><span class="w-1.5 rounded-full grad" style="height:35%"></span><span class="w-1.5 rounded-full grad" style="height:65%"></span><span class="w-1.5 rounded-full grad" style="height:50%"></span><span class="w-1.5 rounded-full grad" style="height:25%"></span></div>
+    </div>
+  </div>
+</section>
+</div>
+
+</main>
+<!-- ===================== FOOTER ===================== -->
+<footer class="bg-slate-900 text-slate-300 pt-14 pb-8">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-10 pb-10 border-b border-slate-800">
+      <div class="space-y-4">
+        <div class="flex items-center gap-3"><div class="w-10 h-10 rounded-xl grad flex items-center justify-center text-white"><i data-lucide="footprints" class="w-5 h-5"></i></div><span class="text-xl font-black text-white">أكاديمية الرياضة الرقمية</span></div>
+        <p class="text-sm font-bold text-slate-300 flex items-center gap-1.5"><i data-lucide="school" class="w-4 h-4 text-cyan-300"></i> ثانوية ٣٥ بجدة</p>
+        <div class="inline-flex bg-white rounded-2xl px-4 py-2.5"><img src="/static/img/moe-logo.png" alt="وزارة التعليم" class="h-12 w-auto"></div>
+        <p class="text-sm text-slate-400 leading-relaxed">مبادرة مدرسية نوعية للمرحلة الثانوية للبنات، تواكب مستهدفات <strong class="text-cyan-300">جودة الحياة</strong> و<strong class="text-white">التحول الرقمي</strong> بدمج الرياضة بالذكاء الاصطناعي.</p>
+      </div>
+      <div>
+        <h4 class="text-white font-bold mb-4">خارطة تنفيذ المشروع</h4>
+        <ul class="space-y-2 text-sm text-slate-400">
+          <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-cyan-400"></span> المرحلة 1: الإطلاق والتعريف بالمنصة</li>
+          <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-cyan-400"></span> المرحلة 2: تشكيل فرق التقنية الرياضية</li>
+          <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-purple-400"></span> المرحلة 3: تشغيل المحطات الرقمية QR</li>
+          <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-purple-400"></span> المرحلة 4 و5: المنافسات والتكريم</li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="text-white font-bold mb-4">إشراف قسم التربية البدنية والتقنية</h4>
+        <p class="text-sm text-slate-400 mb-4">لاقتراح تحديات رياضية جديدة، تواصلي مع فريق المبادرة في المدرسة.</p>
+        <div class="flex items-center gap-3 flex-wrap">
+          <span class="px-3 py-1.5 rounded-lg bg-slate-800 text-xs font-bold text-cyan-300 border border-slate-700">#جودة_الحياة</span>
+          <span class="px-3 py-1.5 rounded-lg bg-slate-800 text-xs font-bold text-purple-300 border border-slate-700">#التحول_الرقمي</span>
+        </div>
+      </div>
+    </div>
+    <div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500">
+      <span>جميع الحقوق محفوظة © 2026 «أكاديمية الرياضة الرقمية»</span>
+      <span class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-800 border border-slate-700 text-slate-300"><i data-lucide="code-2" class="w-3.5 h-3.5 text-cyan-300"></i> تصميم وتطوير: <b class="text-white">غلا عبدالله</b> <span class="text-slate-500">·</span> <b class="text-cyan-300" dir="ltr">Ghala Abdullah</b></span>
+    </div>
+  </div>
+</footer>
+<!-- ===================== المدربة الذكية (أيقونة عائمة) ===================== -->
+<div id="coachPanel" class="hidden fixed z-50 bottom-28 left-4 sm:left-6 w-[calc(100vw-2rem)] sm:w-[400px] h-[min(600px,72vh)] bg-white text-slate-800 rounded-3xl shadow-2xl border border-slate-200 overflow-hidden flex-col origin-bottom-left animate-fadeUp">
+  <div class="grad p-4 text-white flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <div class="w-11 h-11 rounded-2xl bg-white/20 flex items-center justify-center"><i data-lucide="bot" class="w-6 h-6"></i></div>
+      <div><h3 class="font-black">المدربة الذكية</h3><p id="coachStatus" class="text-xs text-white/85">جارٍ الاتصال…</p></div>
+    </div>
+    <div class="flex gap-1.5">
+      <button onclick="clearChat()" class="p-2 rounded-xl bg-white/10 hover:bg-white/20" title="محادثة جديدة"><i data-lucide="refresh-cw" class="w-4 h-4"></i></button>
+      <button onclick="toggleCoach(false)" class="p-2 rounded-xl bg-white/10 hover:bg-white/20" title="إغلاق"><i data-lucide="x" class="w-4 h-4"></i></button>
+    </div>
+  </div>
+  <div id="chatMessages" class="p-4 space-y-4 overflow-y-auto flex-1 bg-slate-50 text-sm"></div>
+  <div class="px-3 py-2.5 bg-white border-t border-slate-100 flex gap-2 overflow-x-auto no-scrollbar">
+    <button onclick="quickPrompt('كيف أؤدي تمرين السكوات بطريقة صحيحة؟')" class="chip bg-purple-50 text-brand-purple hover:bg-purple-100">تصحيح السكوات</button>
+    <button onclick="quickPrompt('ما أفضل وجبة خفيفة قبل حصة الرياضة؟')" class="chip bg-cyan-50 text-brand-tealDark hover:bg-cyan-100">تغذية ما قبل الرياضة</button>
+    <button onclick="quickPrompt('كيف أتعامل مع الشد العضلي المفاجئ؟')" class="chip bg-amber-50 text-amber-700 hover:bg-amber-100">إسعاف الشد العضلي</button>
+    <button onclick="quickPrompt('اقترحي إحماء لمدة 5 دقائق قبل كرة الطائرة')" class="chip bg-emerald-50 text-emerald-700 hover:bg-emerald-100">إحماء الطائرة</button>
+  </div>
+  <form onsubmit="handleChatSubmit(event)" class="p-3 bg-white border-t border-slate-200 flex gap-2">
+    <input id="chatInput" type="text" maxlength="500" placeholder="اكتبي سؤالكِ الرياضي هنا…" class="input flex-1" autocomplete="off">
+    <button id="chatSend" type="submit" class="btn btn-primary px-4"><i data-lucide="send" class="w-5 h-5 -scale-x-100"></i></button>
+  </form>
+</div>
+<button id="coachFab" onclick="toggleCoach()" aria-label="المدربة الذكية" class="fixed z-50 bottom-6 left-4 sm:left-6 w-16 h-16 rounded-full grad text-white shadow-xl shadow-purple-500/40 flex items-center justify-center hover:scale-110 transition-transform group">
+  <span class="absolute inset-0 rounded-full grad animate-ping opacity-30"></span>
+  <span id="fabIcon" class="relative"><i data-lucide="bot" class="w-8 h-8"></i></span>
+  <span class="absolute left-full ml-3 px-3 py-1.5 rounded-xl bg-slate-900 text-white text-xs font-bold whitespace-nowrap opacity-0 group-hover:opacity-100 transition pointer-events-none hidden sm:block">اسألي المدربة الذكية</span>
+</button>
+
+<!-- ===================== MODALS ===================== -->
+<div id="authModal" class="modal hidden" onclick="if(event.target===this)closeModal('authModal')">
+  <div class="modal-box max-w-md p-6 sm:p-8 relative">
+    <button onclick="closeModal('authModal')" class="absolute top-5 left-5 p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600"><i data-lucide="x" class="w-4 h-4"></i></button>
+    <div id="authContent"></div>
+  </div>
+</div>
+<div id="profileModal" class="modal hidden" onclick="if(event.target===this)closeModal('profileModal')">
+  <div class="modal-box max-w-lg p-6 sm:p-8 relative">
+    <button onclick="closeModal('profileModal')" class="absolute top-5 left-5 p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600"><i data-lucide="x" class="w-4 h-4"></i></button>
+    <div id="profileContent"></div>
+  </div>
+</div>
+<div id="genericModal" class="modal hidden" onclick="if(event.target===this)closeGeneric()">
+  <div id="genericBox" class="modal-box max-w-lg p-6 sm:p-8 relative">
+    <button onclick="closeGeneric()" class="absolute top-5 left-5 p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 z-10"><i data-lucide="x" class="w-4 h-4"></i></button>
+    <div id="genericContent"></div>
+  </div>
+</div>
+
+<div id="toast" class="fixed bottom-5 right-5 z-[70] translate-y-24 opacity-0 transition-all duration-300 bg-slate-900 text-white px-5 py-3.5 rounded-2xl shadow-xl border border-slate-700 flex items-center gap-3 text-sm font-bold max-w-[90vw] pointer-events-none">
+  <span id="toastIcon" class="text-cyan-300"></span><span id="toastMessage"></span>
+</div>
+
+<script>
+/* =========================================================
+   أكاديمية الرياضة الرقمية — منطق المنصة
+   ========================================================= */
+
+// ---------- أدوات عامة ----------
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt = n => Number(n||0).toLocaleString('en-US');
+const todayKey = () => new Date().toISOString().slice(0,10);
+function icons(){ try{ lucide.createIcons(); }catch(e){} }
+
+// ---------- الاتصال بالخادم ----------
+function getCookie(name){ const m = document.cookie.match('(^|;)\\s*' + name + '=([^;]*)'); return m ? decodeURIComponent(m[2]) : ''; }
+async function api(url, { method='GET', data=null, form=null } = {}){
+  const opt = { method, credentials:'same-origin', headers:{ 'X-Requested-With':'fetch' } };
+  if(method !== 'GET') opt.headers['X-CSRFToken'] = getCookie('csrftoken');
+  if(form) opt.body = form;
+  else if(data){ opt.headers['Content-Type'] = 'application/json'; opt.body = JSON.stringify(data); }
+  let res, json;
+  try{ res = await fetch(url, opt); }
+  catch(e){ return { ok:false, error:'تعذّر الاتصال بالخادم، تحققي من الإنترنت.', code:'network' }; }
+  try{ json = await res.json(); }
+  catch(e){ json = { ok:false, error: res.status === 403 ? 'انتهت الجلسة، حدّثي الصفحة ثم حاولي مجدداً.' : 'حدث خطأ غير متوقع في الخادم.' }; }
+  json.status = res.status;
+  return json;
+}
+let ME = null;              // بيانات الطالبة المسجّلة كما يعيدها الخادم
+let pendingEmail = '';      // البريد الجاري تأكيده أو استعادة كلمة مروره
+function me(){ return ME; }
+async function loadMe(){ const r = await api('/api/me/'); ME = (r.ok && r.authenticated) ? r.user : null; return ME; }
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+function pwRuleError(pw){
+  if(pw.length < 8) return 'كلمة المرور يجب ألا تقل عن 8 أحرف.';
+  if(!/[A-Z]/.test(pw)) return 'كلمة المرور يجب أن تحتوي على حرف إنجليزي كبير (Capital) واحد على الأقل.';
+  return '';
+}
+
+function toast(msg, kind='ok'){
+  const t = $('toast');
+  const map = { ok:['check-circle-2','text-cyan-300'], warn:['alert-triangle','text-amber-300'], info:['info','text-sky-300'], err:['x-circle','text-red-400'] };
+  const [ic, col] = map[kind] || map.ok;
+  $('toastIcon').className = col; $('toastIcon').innerHTML = `<i data-lucide="${ic}" class="w-5 h-5"></i>`;
+  $('toastMessage').textContent = msg; icons();
+  t.classList.remove('translate-y-24','opacity-0');
+  clearTimeout(t._h); t._h = setTimeout(()=>t.classList.add('translate-y-24','opacity-0'), 3600);
+}
+function openModal(id){ $(id).classList.remove('hidden'); icons(); }
+function closeModal(id){ $(id).classList.add('hidden'); }
+function openGeneric(html, wide=false){
+  $('genericBox').className = 'modal-box p-6 sm:p-8 relative ' + (wide ? 'max-w-3xl' : 'max-w-lg');
+  $('genericContent').innerHTML = html; openModal('genericModal');
+}
+function closeGeneric(){ closeModal('genericModal'); stopTimer(); stopSpeech(); }
+function toggleMobileMenu(){ $('mobileMenu').classList.toggle('hidden'); }
+function requireLogin(msg){
+  if(me()) return true;
+  toast(msg || 'سجّلي الدخول أولاً لحفظ إنجازاتكِ', 'info');
+  openAuth('login'); return false;
+}
+
+// ---------- تنزيل الملفات ----------
+function offerDownload(filename, data){
+  const blob = data instanceof Blob ? data : new Blob([data], { type:'text/plain;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = filename;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 3000);
+  toast('تم تنزيل الملف');
+}
+
+// =========================================================
+// المصادقة: دخول / تسجيل / تأكيد البريد / استعادة كلمة المرور
+// =========================================================
+function authHeader(icon, title, sub){
+  return `<div class="text-center mb-6">
+    <div class="w-14 h-14 mx-auto rounded-2xl grad text-white flex items-center justify-center mb-3"><i data-lucide="${icon}" class="w-7 h-7"></i></div>
+    <h3 class="text-2xl font-black text-slate-900">${title}</h3><p class="text-sm text-slate-500 mt-1">${sub}</p></div>`;
+}
+const pwHint = `<p class="text-[11px] text-slate-400 mt-1">8 أحرف على الأقل، وتتضمن حرفاً إنجليزياً كبيراً واحداً (A-Z).</p>`;
+function pwField(id, label, ph='••••••••'){
+  return `<div><label class="block text-xs font-bold text-slate-700 mb-1">${label}</label>
+    <div class="relative"><input type="password" id="${id}" required placeholder="${ph}" class="input pl-10" dir="ltr">
+    <button type="button" onclick="const i=$('${id}');i.type=i.type==='password'?'text':'password'" class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"><i data-lucide="eye" class="w-4 h-4"></i></button></div></div>`;
+}
+function openAuth(view='login', data={}){
+  const c = $('authContent'); let h = '';
+  if(view === 'login'){
+    h = authHeader('user','تسجيل الدخول','أهلاً بكِ مجدداً يا بطلة') + `
+    <form onsubmit="doLogin(event)" class="space-y-4" novalidate>
+      <div><label class="block text-xs font-bold text-slate-700 mb-1">البريد الإلكتروني</label><input type="email" id="lgEmail" class="input" dir="ltr" placeholder="example@gmail.com" value="${esc(data.email||'')}"></div>
+      ${pwField('lgPw','كلمة المرور')}
+      <div class="text-left -mt-1"><a href="#" onclick="event.preventDefault();openAuth('forgot',{email:$('lgEmail').value})" class="text-xs font-bold text-brand-purple hover:underline">نسيتِ كلمة المرور؟</a></div>
+      <div id="authErr" class="text-xs text-red-600 font-bold text-center min-h-[1rem]"></div>
+      <button id="authBtn" class="btn btn-primary w-full py-3.5">تسجيل الدخول</button>
+    </form>
+    <p class="text-center text-xs text-slate-600 mt-5 pt-4 border-t border-slate-100">ليس لديكِ حساب؟ <a href="#" onclick="event.preventDefault();openAuth('register')" class="text-brand-purple font-bold hover:underline">سجّلي الآن</a></p>`;
+  }
+  else if(view === 'register'){
+    h = authHeader('user-plus','إنشاء حساب جديد','انضمي إلى أكاديمية الرياضة الرقمية') + `
+    <form onsubmit="doRegister(event)" class="space-y-4" novalidate>
+      <div><label class="block text-xs font-bold text-slate-700 mb-1">الاسم الكامل</label><input type="text" id="rgName" class="input" placeholder="مثال: سارة القحطاني"></div>
+      <div><label class="block text-xs font-bold text-slate-700 mb-1">البريد الإلكتروني</label><input type="email" id="rgEmail" class="input" dir="ltr" placeholder="example@gmail.com"><p class="text-[11px] text-slate-400 mt-1">أي بريد صالح (Gmail، Hotmail، Outlook…).</p></div>
+      ${pwField('rgPw','كلمة المرور')}${pwHint}
+      <div id="authErr" class="text-xs text-red-600 font-bold text-center min-h-[1rem]"></div>
+      <button id="authBtn" class="btn btn-primary w-full py-3.5">إنشاء الحساب</button>
+    </form>
+    <p class="text-center text-xs text-slate-600 mt-5 pt-4 border-t border-slate-100">لديكِ حساب بالفعل؟ <a href="#" onclick="event.preventDefault();openAuth('login')" class="text-brand-purple font-bold hover:underline">تسجيل الدخول</a></p>`;
+  }
+  else if(view === 'verify'){
+    h = authHeader('mail-check','تأكيد البريد الإلكتروني',`أرسلنا رمز تحقق من 6 أرقام إلى <b dir="ltr">${esc(pendingEmail)}</b>`) + `
+    <div class="rounded-2xl bg-cyan-50/70 border border-cyan-200 p-3 mb-5 text-xs text-slate-600 leading-relaxed flex gap-2">
+      <i data-lucide="info" class="w-4 h-4 text-brand-tealDark shrink-0 mt-0.5"></i>
+      <span>افتحي بريدكِ وابحثي عن رسالة «أكاديمية الرياضة الرقمية». إن لم تجديها خلال دقيقة، تحققي من مجلد <b>الرسائل غير المرغوب فيها (Spam)</b>. الرمز صالح 15 دقيقة.</span>
+    </div>
+    <form onsubmit="doVerify(event)" class="space-y-4" novalidate>
+      <input id="vfCode" inputmode="numeric" autocomplete="one-time-code" maxlength="6" class="input text-center font-mono text-2xl tracking-[.5em]" dir="ltr" placeholder="000000">
+      <div id="authErr" class="text-xs text-red-600 font-bold text-center min-h-[1rem]"></div>
+      <button id="authBtn" class="btn btn-primary w-full py-3.5">تأكيد وتفعيل الحساب</button>
+    </form>
+    <p class="text-center text-xs text-slate-600 mt-4"><a href="#" onclick="event.preventDefault();resendCode('verify')" class="text-brand-purple font-bold hover:underline">إعادة إرسال الرمز</a></p>`;
+  }
+  else if(view === 'forgot'){
+    h = authHeader('key-round','استعادة كلمة المرور','أدخلي بريدكِ المسجّل لنرسل لكِ رمز إعادة التعيين') + `
+    <form onsubmit="doForgot(event)" class="space-y-4" novalidate>
+      <div><label class="block text-xs font-bold text-slate-700 mb-1">البريد الإلكتروني</label><input type="email" id="fgEmail" class="input" dir="ltr" placeholder="example@gmail.com" value="${esc(data.email||'')}"></div>
+      <div id="authErr" class="text-xs text-red-600 font-bold text-center min-h-[1rem]"></div>
+      <button id="authBtn" class="btn btn-primary w-full py-3.5">إرسال رمز إعادة التعيين</button>
+    </form>
+    <p class="text-center text-xs text-slate-600 mt-5 pt-4 border-t border-slate-100"><a href="#" onclick="event.preventDefault();openAuth('login')" class="text-brand-purple font-bold hover:underline">العودة لتسجيل الدخول</a></p>`;
+  }
+  else if(view === 'reset'){
+    h = authHeader('lock-keyhole','تعيين كلمة مرور جديدة',`أرسلنا رمز إعادة التعيين إلى <b dir="ltr">${esc(pendingEmail)}</b>`) + `
+    <form onsubmit="doReset(event)" class="space-y-4" novalidate>
+      <div><label class="block text-xs font-bold text-slate-700 mb-1">رمز التحقق من البريد</label><input id="rsCode" inputmode="numeric" autocomplete="one-time-code" maxlength="6" class="input text-center font-mono tracking-[.4em]" dir="ltr" placeholder="000000"></div>
+      ${pwField('rsPw','كلمة المرور الجديدة')}${pwHint}
+      ${pwField('rsPw2','تأكيد كلمة المرور')}
+      <div id="authErr" class="text-xs text-red-600 font-bold text-center min-h-[1rem]"></div>
+      <button id="authBtn" class="btn btn-primary w-full py-3.5">حفظ كلمة المرور</button>
+    </form>
+    <p class="text-center text-xs text-slate-600 mt-4"><a href="#" onclick="event.preventDefault();resendCode('reset')" class="text-brand-purple font-bold hover:underline">إعادة إرسال الرمز</a></p>`;
+  }
+  c.innerHTML = h; openModal('authModal');
+  setTimeout(()=>{ const f = c.querySelector('input'); if(f) f.focus(); }, 60);
+}
+const authErr = m => { const e = $('authErr'); if(e) e.innerHTML = m ? '⚠️ ' + esc(m) : ''; };
+function setBusy(on){
+  const b = $('authBtn'); if(!b) return;
+  b.disabled = on; b.classList.toggle('opacity-60', on);
+  if(on){ b.dataset.t = b.innerHTML; b.innerHTML = '<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i> لحظات…'; icons(); }
+  else if(b.dataset.t){ b.innerHTML = b.dataset.t; }
+}
+async function post(url, data){ setBusy(true); const r = await api(url, { method:'POST', data }); setBusy(false); return r; }
+
+async function doLogin(e){
+  e.preventDefault();
+  const email = $('lgEmail').value.trim().toLowerCase(), password = $('lgPw').value;
+  if(!EMAIL_RE.test(email)) return authErr('صيغة البريد الإلكتروني غير صحيحة (مثال: example@gmail.com).');
+  if(!password) return authErr('أدخلي كلمة المرور.');
+  const r = await post('/login/', { email, password });
+  if(r.ok){ ME = r.user; return afterLogin(false); }
+  if(r.code === 'unverified'){ pendingEmail = email; toast('أرسلنا رمز التحقق إلى بريدكِ', 'info'); return openAuth('verify'); }
+  authErr(r.error);
+}
+async function doRegister(e){
+  e.preventDefault();
+  const name = $('rgName').value.trim(), email = $('rgEmail').value.trim().toLowerCase(), password = $('rgPw').value;
+  if(name.length < 3) return authErr('أدخلي الاسم الكامل.');
+  if(!EMAIL_RE.test(email)) return authErr('صيغة البريد الإلكتروني غير صحيحة (مثال: example@gmail.com).');
+  const pe = pwRuleError(password); if(pe) return authErr(pe);
+  const r = await post('/register/', { name, email, password });
+  if(!r.ok) return authErr(r.error);
+  pendingEmail = email; toast('📩 أرسلنا رمز التأكيد إلى بريدكِ'); openAuth('verify');
+}
+async function doVerify(e){
+  e.preventDefault();
+  const code = $('vfCode').value.trim();
+  if(!/^\d{6}$/.test(code)) return authErr('أدخلي الرمز المكوّن من 6 أرقام.');
+  const r = await post('/verify-email/', { email:pendingEmail, code });
+  if(!r.ok) return authErr(r.error);
+  ME = r.user; afterLogin(true);
+}
+async function resendCode(purpose){
+  const r = await api('/resend-code/', { method:'POST', data:{ email:pendingEmail, purpose } });
+  toast(r.ok ? 'أرسلنا رمزاً جديداً إلى بريدكِ' : r.error, r.ok ? 'ok' : 'warn');
+}
+async function doForgot(e){
+  e.preventDefault();
+  const email = $('fgEmail').value.trim().toLowerCase();
+  if(!EMAIL_RE.test(email)) return authErr('صيغة البريد الإلكتروني غير صحيحة.');
+  const r = await post('/forgot-password/', { email });
+  if(!r.ok) return authErr(r.error);
+  pendingEmail = email; toast('📩 أرسلنا رمز إعادة التعيين إلى بريدكِ'); openAuth('reset');
+}
+async function doReset(e){
+  e.preventDefault();
+  const code = $('rsCode').value.trim(), password = $('rsPw').value, pw2 = $('rsPw2').value;
+  if(!/^\d{6}$/.test(code)) return authErr('أدخلي الرمز المكوّن من 6 أرقام.');
+  const pe = pwRuleError(password); if(pe) return authErr(pe);
+  if(password !== pw2) return authErr('كلمتا المرور غير متطابقتين.');
+  const r = await post('/reset-password/', { email:pendingEmail, code, password });
+  if(!r.ok) return authErr(r.error);
+  toast('تم تحديث كلمة المرور بنجاح، سجّلي الدخول الآن');
+  openAuth('login', { email:pendingEmail });
+}
+function afterLogin(isNew){
+  closeModal('authModal');
+  const first = (ME.name || '').split(' ')[0];
+  toast(isNew ? `تم تفعيل حسابكِ — أهلاً بكِ يا ${first}! 🎉` : `أهلاً بكِ يا ${first}! تم تسجيل الدخول`);
+  refreshAll();
+}
+async function logout(){ await api('/logout/', { method:'POST' }); ME = null; toast('تم تسجيل الخروج', 'info'); refreshAll(); }
+
+function renderNavbar(){
+  const a = $('authNavbarArea'), u = me();
+  if(!u){
+    a.innerHTML = `<button onclick="openAuth('login')" class="btn btn-primary px-4 sm:px-5 py-2.5 text-sm whitespace-nowrap"><i data-lucide="log-in" class="w-4 h-4"></i><span>دخول المنصة</span></button>`;
+  } else {
+    a.innerHTML = `<div class="relative">
+      <button onclick="event.stopPropagation();$('userMenu').classList.toggle('hidden')" class="flex items-center gap-2 px-3 sm:px-4 py-2 rounded-xl bg-purple-50 text-brand-purple font-bold text-sm border border-purple-200">
+        <span class="w-7 h-7 rounded-full grad text-white flex items-center justify-center text-xs font-black">${esc(u.name.trim()[0]||'؟')}</span>
+        <span class="hidden sm:inline">مرحباً، ${esc(u.name.split(' ')[0])}</span><i data-lucide="chevron-down" class="w-4 h-4"></i>
+      </button>
+      <div id="userMenu" class="hidden absolute left-0 mt-2 w-56 bg-white rounded-2xl shadow-xl border border-slate-100 py-2 z-50">
+        <div class="px-4 py-2 text-xs text-slate-500 border-b border-slate-100 mb-1 truncate" dir="ltr">${esc(u.email)}</div>
+        <a href="#" onclick="event.preventDefault();openProfile()" class="flex items-center gap-2.5 px-4 py-2.5 text-sm font-bold text-slate-700 hover:bg-slate-50"><i data-lucide="user" class="w-4 h-4 text-brand-purple"></i> الملف الشخصي</a>
+        <div class="border-t border-slate-100 my-1"></div>
+        <a href="#" onclick="event.preventDefault();logout()" class="flex items-center gap-2.5 px-4 py-2.5 text-sm font-bold text-red-600 hover:bg-red-50"><i data-lucide="log-out" class="w-4 h-4"></i> تسجيل الخروج</a>
+      </div></div>`;
+  }
+  icons();
+}
+document.addEventListener('click', () => { const m = $('userMenu'); if(m) m.classList.add('hidden'); });
+
+// ---------- الملف الشخصي ----------
+function badgesFor(u){
+  return [
+    { ok:u.steps>=10000, icon:'footprints', t:'بطلة الخطوات', d:'10,000 خطوة' },
+    { ok:u.qr_done.length>=3, icon:'qr-code', t:'مستكشفة الملعب', d:'3 تحديات QR' },
+    { ok:u.quiz_best>=80, icon:'brain', t:'العقل الرياضي', d:'80% في المسابقة' },
+    { ok:u.lab.length>0, icon:'video', t:'محللة الأداء', d:'تقرير مختبر' },
+    { ok:u.chats>=3, icon:'bot', t:'صديقة المدربة', d:'3 أسئلة للمدربة' },
+  ];
+}
+function openProfile(){
+  const u = me(); if(!u) return openAuth('login');
+  const bestLab = u.lab.reduce((m,r)=>Math.max(m,r.imp), 0);
+  $('profileContent').innerHTML = `
+    <div class="text-center mb-6">
+      <div class="w-16 h-16 mx-auto rounded-full grad text-white flex items-center justify-center text-2xl font-black mb-3 shadow-md">${esc((u.name||'؟').trim()[0])}</div>
+      <h3 class="text-xl font-black text-slate-900">${esc(u.name)}</h3>
+      <p class="text-xs text-slate-500 mt-1" dir="ltr">${esc(u.email)}</p>
+      <span class="chip bg-purple-50 text-brand-purple mt-2 inline-block">الترتيب في المدرسة: #${u.rank}</span>
+    </div>
+    <div class="grid grid-cols-2 gap-3 mb-5">
+      <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200"><div class="flex items-center gap-2 text-xs font-bold text-slate-500"><i data-lucide="footprints" class="w-4 h-4 text-brand-tealDark"></i> إجمالي الخطوات</div><div class="text-2xl font-black text-slate-900 mt-1">${fmt(u.steps)}</div></div>
+      <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200"><div class="flex items-center gap-2 text-xs font-bold text-slate-500"><i data-lucide="qr-code" class="w-4 h-4 text-amber-600"></i> نقاط تحدي QR</div><div class="text-2xl font-black text-slate-900 mt-1">${fmt(u.qr_points)}</div></div>
+      <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200"><div class="flex items-center gap-2 text-xs font-bold text-slate-500"><i data-lucide="gamepad-2" class="w-4 h-4 text-brand-purple"></i> أفضل نتيجة مسابقة</div><div class="text-2xl font-black text-slate-900 mt-1">${u.quiz_best}%</div></div>
+      <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200"><div class="flex items-center gap-2 text-xs font-bold text-slate-500"><i data-lucide="trending-up" class="w-4 h-4 text-emerald-600"></i> أفضل تحسن مهاري</div><div class="text-2xl font-black text-slate-900 mt-1">${bestLab>0?'+':''}${bestLab}%</div></div>
+    </div>
+    <label class="block text-xs font-bold text-slate-700 mb-1">فصلي الدراسي (لمنافسة الفصول)</label>
+    <select class="input mb-5" onchange="updateClass(this.value)">
+      ${CLASSES.map(c=>`<option ${c===u.class_name?'selected':''}>${c}</option>`).join('')}
+    </select>
+    <button onclick="closeModal('profileModal');openShortcutGuide()" class="w-full mb-5 flex items-center gap-3 p-4 rounded-2xl border border-cyan-200 bg-cyan-50/60 hover:bg-cyan-50 text-right transition">
+      <span class="w-10 h-10 rounded-xl grad text-white flex items-center justify-center shrink-0"><i data-lucide="smartphone" class="w-5 h-5"></i></span>
+      <span class="flex-1"><b class="block text-sm text-slate-900">ربط الآيفون لتسجيل الخطوات تلقائياً</b><span class="text-xs text-slate-500">عبر تطبيق «الاختصارات» وتطبيق «صحتي»</span></span>
+      <i data-lucide="chevron-left" class="w-4 h-4 text-slate-400"></i>
+    </button>
+    <h4 class="font-black text-slate-900 mb-3 text-sm">أوسمتي</h4>
+    <div class="grid grid-cols-5 gap-2 mb-6">
+      ${badgesFor(u).map(b=>`<div class="text-center ${b.ok?'':'opacity-35 grayscale'}" title="${b.d}">
+        <div class="w-12 h-12 mx-auto rounded-2xl ${b.ok?'grad text-white shadow':'bg-slate-100 text-slate-400'} flex items-center justify-center"><i data-lucide="${b.icon}" class="w-5 h-5"></i></div>
+        <div class="text-[10px] font-bold text-slate-600 mt-1 leading-tight">${b.t}</div></div>`).join('')}
+    </div>
+    <button onclick="closeModal('profileModal')" class="btn w-full py-3 bg-slate-900 text-white hover:bg-slate-800">إغلاق</button>`;
+  openModal('profileModal');
+}
+async function updateClass(cls){
+  const r = await api('/api/profile/', { method:'POST', data:{ class_name:cls } });
+  if(!r.ok) return toast(r.error, 'warn');
+  ME = r.user; toast('تم تحديث الفصل'); switchLeaderboard(lbMode);
+}
+async function copyText(t){ try{ await navigator.clipboard.writeText(t); toast('تم النسخ'); }catch(e){ toast('انسخي النص يدوياً', 'warn'); } }
+async function openShortcutGuide(regenerate=false){
+  if(!requireLogin('سجّلي الدخول لربط جوالكِ')) return;
+  const r = await api('/api/shortcut/', { method: regenerate ? 'POST' : 'GET' });
+  if(!r.ok) return toast(r.error, 'warn');
+  if(regenerate) toast('تم إنشاء رمز جديد — حدّثي الاختصار في جوالكِ', 'info');
+  const step = (n, t, d) => `<li class="flex gap-3"><span class="w-7 h-7 shrink-0 rounded-full grad text-white text-xs font-black flex items-center justify-center">${n}</span><div><b class="text-slate-900">${t}</b><div class="text-slate-600 mt-0.5 leading-relaxed">${d}</div></div></li>`;
+  const field = (label, val) => `<div class="mb-3"><div class="text-xs font-bold text-slate-500 mb-1">${label}</div>
+    <div class="flex gap-2"><code dir="ltr" class="flex-1 text-xs bg-slate-100 rounded-xl px-3 py-2.5 overflow-x-auto whitespace-nowrap">${esc(val)}</code>
+    <button onclick="copyText('${esc(val)}')" class="btn btn-ghost px-3 text-xs"><i data-lucide="copy" class="w-4 h-4"></i></button></div></div>`;
+  openGeneric(`
+    <div class="flex items-center gap-3 mb-4"><div class="w-12 h-12 rounded-2xl grad text-white flex items-center justify-center"><i data-lucide="smartphone" class="w-6 h-6"></i></div>
+    <div><h3 class="text-xl font-black text-slate-900">ربط الآيفون بالمنصة</h3><p class="text-xs text-slate-500">مرة واحدة فقط، ثم تُرسل خطواتكِ تلقائياً كل يوم</p></div></div>
+    ${field('رابط الإرسال (URL)', r.url)}
+    ${field('رمز الربط الخاص بكِ — لا تشاركيه', 'Bearer ' + r.token)}
+    <ol class="space-y-4 text-sm mt-5">
+      ${step(1,'أنشئي اختصاراً جديداً','افتحي تطبيق «الاختصارات» ← اضغطي + ← سمّيه «خطوات الأكاديمية».')}
+      ${step(2,'اقرئي خطوات اليوم','أضيفي إجراء «البحث عن عينات الصحة» (Find Health Samples): النوع «الخطوات»، وتاريخ البدء «اليوم». ثم أضيفي «حساب الإحصاءات» (Calculate Statistics) واختاري «المجموع» (Sum).')}
+      ${step(3,'أرسلي الرقم للمنصة','أضيفي «الحصول على محتويات URL» (Get Contents of URL): الصقي الرابط أعلاه، الطريقة POST، أضيفي ترويسة Authorization وقيمتها رمز الربط أعلاه، والمحتوى JSON بحقل اسمه <code dir="ltr">steps</code> قيمته نتيجة «الإحصاءات».')}
+      ${step(4,'اجعليه تلقائياً','من تبويب «الأتمتة» ← أتمتة جديدة ← «وقت محدد» (مثلاً 9:00 مساءً يومياً) ← شغّلي «خطوات الأكاديمية» ← اختاري «تشغيل فوراً».')}
+    </ol>
+    <div class="mt-5 rounded-2xl bg-amber-50 border border-amber-200 p-3 text-xs text-amber-800 leading-relaxed">عند أول تشغيل سيطلب الآيفون إذن قراءة «الخطوات» — اختاري «سماح». يُحتسب لكل يوم أعلى رقم يصل، فلا تتكرر الخطوات إذا شغّلتِ الاختصار أكثر من مرة.</div>
+    <button onclick="openShortcutGuide(true)" class="btn btn-ghost w-full py-2.5 mt-4 text-xs"><i data-lucide="refresh-cw" class="w-4 h-4"></i> إنشاء رمز جديد (يُبطل الرمز القديم)</button>`);
+}
+
+// =========================================================
+// لوحة المتصدرين
+// =========================================================
+const CLASSES = ['أول ثانوي / 1','أول ثانوي / 2','ثاني ثانوي / علمي 1','ثاني ثانوي / علمي 2','ثالث ثانوي / علمي 1','ثالث ثانوي / إنساني'];
+let lbMode = 'students', lbReq = 0;
+async function switchLeaderboard(mode){
+  lbMode = mode; const req = ++lbReq;
+  document.querySelectorAll('.lb-btn').forEach(b => b.className = 'lb-btn px-4 py-2.5 rounded-xl font-bold text-sm whitespace-nowrap transition-all ' + (b.dataset.lb===mode ? 'tab-on' : 'tab-off'));
+  const r = await api('/api/leaderboard/?type=' + mode);
+  if(req !== lbReq) return;  // وصل رد أحدث
+  if(!r.ok){ $('podium').innerHTML = `<p class="col-span-full text-center text-slate-500 py-6">${esc(r.error)}</p>`; $('lbList').innerHTML=''; return; }
+  const rows = r.rows || [], unit = r.unit;
+  if(!rows.length || !rows.some(x=>x.value>0)){
+    $('podium').innerHTML = `<div class="col-span-full text-center py-10"><div class="text-5xl mb-3">🏁</div><p class="font-black text-slate-800">لا توجد نتائج بعد</p><p class="text-sm text-slate-500 mt-1">كوني أول بطلة في لوحة الشرف!</p></div>`;
+    $('lbList').innerHTML = ''; return;
+  }
+  const max = rows[0].value || 1;
+  const medals = [['from-amber-400 to-yellow-500','🥇 المركز الأول'],['from-slate-300 to-slate-400','🥈 المركز الثاني'],['from-amber-600 to-orange-700','🥉 المركز الثالث']];
+  const meChip = '<span class="chip bg-violet-100 text-violet-700 mr-1">أنتِ</span>';
+  $('podium').innerHTML = rows.slice(0,3).map((x,i)=>`
+    <div class="rounded-2xl p-6 border ${i===0?'border-cyan-400 bg-gradient-to-b from-cyan-50/70 to-white shadow-md':'border-slate-200 bg-slate-50/60'} ${x.me?'ring-2 ring-violet-500':''} animate-fadeUp" style="animation-delay:${i*80}ms">
+      <div class="flex items-center justify-between mb-4">
+        <span class="chip bg-white border border-slate-200 text-slate-800">${medals[i][1]}</span>
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br ${medals[i][0]} text-white font-black flex items-center justify-center shadow-sm">#${i+1}</div>
+      </div>
+      <h3 class="text-lg font-black text-slate-900 mb-1">${esc(x.name)} ${x.me?meChip:''}</h3>
+      <p class="text-xs font-bold text-slate-500 mb-4">${esc(x.sub)}</p>
+      <div class="flex items-baseline justify-between mb-2"><span class="text-2xl font-black text-brand-purple tabular-nums">${fmt(x.value)}</span><span class="text-xs font-bold text-slate-500">${unit}</span></div>
+      <div class="w-full h-2.5 bg-slate-200 rounded-full overflow-hidden"><div class="h-full grad rounded-full transition-all duration-700" style="width:${Math.round(x.value/max*100)}%"></div></div>
+    </div>`).join('');
+  $('lbList').innerHTML = rows.slice(3, 10).map((x,i)=>`
+    <div class="flex items-center gap-4 px-5 py-3 ${x.me?'bg-violet-50':'bg-white'}">
+      <span class="w-8 text-center font-black text-slate-400">#${i+4}</span>
+      <div class="flex-1 min-w-0"><div class="font-bold text-slate-800 truncate">${esc(x.name)} ${x.me?meChip:''}</div><div class="text-xs text-slate-500">${esc(x.sub)}</div></div>
+      <div class="hidden sm:block w-40 h-2 bg-slate-100 rounded-full overflow-hidden"><div class="h-full grad" style="width:${Math.round(x.value/max*100)}%"></div></div>
+      <span class="font-black text-slate-800 tabular-nums w-24 text-left">${fmt(x.value)}</span>
+    </div>`).join('');
+  if(r.my_rank){ $('lbList').innerHTML += `<div class="flex items-center gap-4 px-5 py-3 bg-violet-50"><span class="w-8 text-center font-black text-violet-500">#${r.my_rank.rank}</span><div class="flex-1 font-bold text-slate-800">${esc(r.my_rank.name)} ${meChip}</div><span class="font-black tabular-nums">${fmt(r.my_rank.value)}</span></div>`; }
+  icons();
+}
+
+// =========================================================
+// 1) تحدي الخطوات
+// =========================================================
+const DAILY_GOAL = 10000;
+let stepsChart = null, stepsData = null;
+const DAY_AR = ['الأحد','الإثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+const dayName = iso => DAY_AR[new Date(iso + 'T12:00:00').getDay()];
+const STATUS_CHIP = { approved:'bg-emerald-50 text-emerald-700', pending:'bg-amber-50 text-amber-700', rejected:'bg-red-50 text-red-600' };
+const SOURCE_AR = { manual:'يدوي', shortcut:'آيفون', admin:'المعلمة' };
+async function renderSteps(){
+  const u = me(), area = $('stepsArea');
+  if(!u){
+    area.innerHTML = `<div class="card p-10 text-center bg-gradient-to-br from-cyan-50 to-purple-50">
+      <div class="w-16 h-16 mx-auto rounded-2xl grad text-white flex items-center justify-center mb-4"><i data-lucide="lock" class="w-7 h-7"></i></div>
+      <h3 class="text-xl font-black text-slate-900 mb-2">سجّلي الدخول لبدء تحدي الخطوات</h3>
+      <p class="text-slate-600 mb-6">احفظي خطواتكِ اليومية وانضمي إلى لوحة الشرف ومنافسة الفصول.</p>
+      <div class="flex gap-3 justify-center"><button onclick="openAuth('register')" class="btn btn-primary px-6 py-3">إنشاء حساب</button><button onclick="openAuth('login')" class="btn btn-ghost px-6 py-3">تسجيل الدخول</button></div></div>`;
+    icons(); return;
+  }
+  const r = await api('/api/steps/');
+  if(!r.ok){ area.innerHTML = `<div class="card p-8 text-center text-slate-600">${esc(r.error)}</div>`; return; }
+  stepsData = r;
+  const week = r.week, today = week[week.length-1].steps, pct = Math.min(100, Math.round(today/DAILY_GOAL*100));
+  const C = 2*Math.PI*70, off = C*(1-pct/100);
+  const days = week.map(d=>d.date).reverse();
+  area.innerHTML = `<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div class="card p-6 flex flex-col items-center text-center">
+      <h3 class="font-black text-slate-900 mb-4">هدف اليوم</h3>
+      <div class="relative w-44 h-44">
+        <svg viewBox="0 0 160 160" class="w-full h-full -rotate-90"><circle cx="80" cy="80" r="70" stroke-width="14" fill="none" class="ring-bg"/>
+        <defs><linearGradient id="rg" x1="0" x2="1"><stop offset="0" stop-color="#7c3aed"/><stop offset="1" stop-color="#06b6d4"/></linearGradient></defs>
+        <circle cx="80" cy="80" r="70" stroke-width="14" fill="none" stroke="url(#rg)" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${off}" class="ring-fg"/></svg>
+        <div class="absolute inset-0 flex flex-col items-center justify-center"><span class="text-3xl font-black text-slate-900 tabular-nums">${fmt(today)}</span><span class="text-xs font-bold text-slate-500">من ${fmt(DAILY_GOAL)} خطوة</span></div>
+      </div>
+      <p class="mt-4 text-sm font-bold ${pct>=100?'text-emerald-600':'text-brand-purple'}">${pct>=100?'🎉 أحسنتِ! حققتِ هدف اليوم':`باقٍ ${fmt(DAILY_GOAL-today)} خطوة على الهدف`}</p>
+      <div class="mt-4 w-full flex items-center justify-between text-sm bg-slate-50 rounded-xl p-3"><span class="font-bold text-slate-600">إجمالي خطواتي المعتمدة</span><span class="font-black text-brand-purple tabular-nums">${fmt(r.total)}</span></div>
+    </div>
+    <div class="card p-6">
+      <h3 class="font-black text-slate-900 mb-4">تسجيل الخطوات</h3>
+      <button onclick="openShortcutGuide()" class="btn w-full py-3.5 mb-4 bg-slate-900 text-white hover:bg-slate-800"><i data-lucide="smartphone" class="w-5 h-5"></i> ربط الآيفون (تسجيل تلقائي)</button>
+      <div class="flex items-center gap-3 text-xs text-slate-400 mb-4"><div class="flex-1 h-px bg-slate-200"></div>أو إدخال يدوي<div class="flex-1 h-px bg-slate-200"></div></div>
+      <form onsubmit="addSteps(event)" class="space-y-3">
+        <input id="stepsInput" type="number" min="1" max="60000" class="input" placeholder="عدد الخطوات (مثال: 4500)">
+        <select id="stepsDay" class="input">${days.map((d,i)=>`<option value="${d}">${i===0?'اليوم':i===1?'أمس':dayName(d)} — ${d}</option>`).join('')}</select>
+        <label class="flex items-center gap-3 p-3 rounded-xl border-2 border-dashed border-slate-200 hover:border-violet-400 cursor-pointer transition">
+          <i data-lucide="image-plus" class="w-5 h-5 text-brand-purple shrink-0"></i>
+          <span id="proofName" class="text-sm text-slate-600 truncate">${r.require_proof ? 'أرفقي لقطة شاشة من تطبيق الصحة (إلزامي)' : 'لقطة شاشة من تطبيق الصحة (اختياري)'}</span>
+          <input id="proofInput" type="file" accept="image/*" class="hidden" onchange="$('proofName').textContent = this.files[0] ? this.files[0].name : 'لم يتم اختيار صورة'">
+        </label>
+        <button id="stepsBtn" class="btn btn-primary w-full py-3"><i data-lucide="send" class="w-4 h-4 -scale-x-100"></i> إرسال الخطوات</button>
+      </form>
+      ${r.require_proof ? '<p class="text-[11px] text-slate-400 mt-2">تُضاف الخطوات اليدوية بعد مراجعة المعلمة للصورة.</p>' : ''}
+    </div>
+    <div class="card p-6"><h3 class="font-black text-slate-900 mb-4">خطواتي المعتمدة خلال 7 أيام</h3><div class="h-56"><canvas id="stepsChart"></canvas></div>
+      <h4 class="font-black text-slate-900 text-sm mt-5 mb-2">آخر الإدخالات</h4>
+      <div class="space-y-1.5 max-h-40 overflow-y-auto">${r.recent.length ? r.recent.map(x=>`
+        <div class="flex items-center justify-between text-xs bg-slate-50 rounded-lg px-3 py-2"><span class="text-slate-600">${x.date} · ${SOURCE_AR[x.source]||''}</span><span class="font-black tabular-nums">${fmt(x.steps)}</span><span class="chip !py-0.5 ${STATUS_CHIP[x.status]}">${x.status_label}</span></div>`).join('') : '<p class="text-xs text-slate-400">لا توجد إدخالات بعد.</p>'}</div>
+    </div>
+  </div>`;
+  icons();
+  if(stepsChart) stepsChart.destroy();
+  stepsChart = new Chart($('stepsChart'), { type:'bar',
+    data:{ labels: week.map(d=>dayName(d.date)), datasets:[{ data: week.map(d=>d.steps), backgroundColor: week.map(d=>d.steps>=DAILY_GOAL?'#06b6d4':'#7c3aed'), borderRadius:8, maxBarThickness:28 }] },
+    options:{ maintainAspectRatio:false, plugins:{ legend:{display:false}, tooltip:{ rtl:true, callbacks:{ label:c=>fmt(c.raw)+' خطوة' } } },
+      scales:{ y:{ beginAtZero:true, grid:{color:'#f1f5f9'}, ticks:{ font:{family:'Tajawal'} } }, x:{ grid:{display:false}, ticks:{ font:{family:'Tajawal', weight:'bold'} } } } } });
+}
+async function addSteps(e){
+  e.preventDefault();
+  const n = parseInt($('stepsInput').value, 10), file = $('proofInput').files[0];
+  if(!n || n < 1 || n > 60000) return toast('أدخلي عدداً صحيحاً بين 1 و 60,000', 'warn');
+  if(stepsData && stepsData.require_proof && !file) return toast('أرفقي لقطة شاشة من تطبيق الصحة', 'warn');
+  const form = new FormData(); form.append('steps', n); form.append('date', $('stepsDay').value); if(file) form.append('proof', file);
+  const b = $('stepsBtn'); b.disabled = true; b.classList.add('opacity-60');
+  const r = await api('/api/steps/', { method:'POST', form });
+  b.disabled = false; b.classList.remove('opacity-60');
+  if(!r.ok) return toast(r.error, 'warn');
+  ME = r.user; toast(r.message, r.entry_status === 'pending' ? 'info' : 'ok');
+  renderSteps(); switchLeaderboard(lbMode);
+}
+
+// =========================================================
+// 2) مختبر تحليل الأداء
+// =========================================================
+const SKILLS = {
+  basketball:{ name:'كرة السلة — التصويب من الثبات', c:['القدمان بعرض الكتفين والقدم الضاربة متقدمة قليلاً','ثني الركبتين قبل التصويب لتوليد القوة','المرفق تحت الكرة وعلى استقامة السلة','مدّ الذراع كاملاً مع ثني الرسغ (المتابعة)','النظر إلى الحلقة طوال الحركة'] },
+  volleyball:{ name:'كرة الطائرة — الإرسال من أعلى', c:['القدم المعاكسة لذراع الضرب متقدمة','رمي الكرة بارتفاع مناسب أمام كتف الضرب','سحب الذراع للخلف مع رفع المرفق','ضرب الكرة براحة اليد المشدودة في منتصفها','متابعة الذراع باتجاه الهدف'] },
+  sprint:{ name:'العدو — البدء والانطلاق', c:['وضع الاستعداد الصحيح وتوزيع الثقل','ميل الجذع للأمام عند الانطلاق','حركة الذراعين متبادلة مع الرجلين','الهبوط على مشط القدم','رفع الركبتين بشكل كافٍ'] },
+};
+let labState = { skill:'basketball', b:new Set(), a:new Set() };
+function renderLabCriteria(){
+  const sel = $('labSkill'); if(!sel.options.length) sel.innerHTML = Object.entries(SKILLS).map(([k,v])=>`<option value="${k}">${v.name}</option>`).join('');
+  if(labState.skill !== sel.value){ labState = { skill:sel.value, b:new Set(), a:new Set() }; }
+  const sk = SKILLS[labState.skill];
+  $('labCriteria').innerHTML = `<span class="text-xs font-bold text-slate-400">المعيار الفني</span><span class="text-xs font-bold text-slate-400 text-center">قبل</span><span class="text-xs font-bold text-slate-400 text-center">بعد</span>` +
+    sk.c.map((c,i)=>`<span class="text-slate-700 leading-snug">${c}</span>
+      <input type="checkbox" class="w-5 h-5 accent-slate-600 mx-auto" ${labState.b.has(i)?'checked':''} onchange="labTick('b',${i},this.checked)">
+      <input type="checkbox" class="w-5 h-5 accent-cyan-500 mx-auto" ${labState.a.has(i)?'checked':''} onchange="labTick('a',${i},this.checked)">`).join('');
+  labScores();
+}
+function labTick(w,i,on){ on ? labState[w].add(i) : labState[w].delete(i); labScores(); }
+function labScores(){
+  const n = SKILLS[labState.skill].c.length, b = Math.round(labState.b.size/n*100), a = Math.round(labState.a.size/n*100), imp = a-b;
+  $('labScoreB').textContent = b+'%'; $('labScoreA').textContent = a+'%'; $('labImp').textContent = (imp>0?'+':'')+imp+'%';
+  return { b, a, imp };
+}
+async function saveLabResult(){
+  if(!requireLogin('سجّلي الدخول لحفظ تقرير المختبر')) return;
+  const s = labScores(); if(!labState.b.size && !labState.a.size) return toast('قيّمي المعايير أولاً', 'warn');
+  const r = await api('/api/lab/', { method:'POST', data:{ skill:labState.skill, before:s.b, after:s.a, note:$('labNote').value.trim().slice(0,300) } });
+  if(!r.ok) return toast(r.error, 'warn');
+  ME = r.user; renderLabHistory(); toast('تم حفظ تقرير الأداء في ملفكِ 📊');
+}
+function renderLabHistory(){
+  const u = me(), el = $('labHistory');
+  if(!u || !u.lab.length){ el.innerHTML = ''; return; }
+  el.innerHTML = `<div class="text-xs font-bold text-slate-500 mb-1">تقاريري المحفوظة</div>` + u.lab.slice(0,3).map(r=>`
+    <div class="flex items-center justify-between text-xs bg-slate-50 rounded-xl px-3 py-2 border border-slate-100"><span class="font-bold text-slate-700 truncate">${SKILLS[r.skill].name.split(' — ')[0]} · ${r.date}</span><span class="font-black ${r.imp>=0?'text-emerald-600':'text-red-500'}">${r.before}% ← ${r.after}% (${r.imp>0?'+':''}${r.imp}%)</span></div>`).join('');
+}
+function loadVideo(e, w){
+  const f = e.target.files[0]; if(!f) return;
+  const v = $('vid'+w); v.src = URL.createObjectURL(f); v.playbackRate = curSpeed; $('ph'+w).classList.add('hidden');
+  v.addEventListener('timeupdate', labSync); toast('تم تحميل المقطع — جاهز للتحليل');
+}
+let curSpeed = 0.5, labPlaying = false;
+const vids = () => ['vidBefore','vidAfter'].map($).filter(v=>v.src);
+function labSpeed(s){ curSpeed = s; vids().forEach(v=>v.playbackRate=s);
+  document.querySelectorAll('#speedBtns button').forEach(b=>b.className='px-3 py-1.5 rounded-lg text-xs font-bold '+(parseFloat(b.dataset.s)===s?'bg-white shadow text-brand-purple':'text-slate-600')); }
+function labTogglePlay(){
+  const vs = vids(); if(!vs.length) return toast('ارفعي مقطع فيديو واحداً على الأقل', 'info');
+  labPlaying = !labPlaying; vs.forEach(v=>{ v.playbackRate = curSpeed; labPlaying ? v.play().catch(()=>{}) : v.pause(); });
+  $('labPlayBtn').innerHTML = labPlaying ? '<i data-lucide="pause" class="w-4 h-4"></i> إيقاف' : '<i data-lucide="play" class="w-4 h-4"></i> تشغيل متزامن'; icons();
+}
+function labStep(d){ vids().forEach(v=>{ v.pause(); v.currentTime = Math.max(0, v.currentTime + d/30); }); labPlaying=false; $('labPlayBtn').innerHTML='<i data-lucide="play" class="w-4 h-4"></i> تشغيل متزامن'; icons(); }
+function labSeek(val){ vids().forEach(v=>{ if(v.duration) v.currentTime = v.duration*val/1000; }); }
+function labSync(){ const v = vids()[0]; if(v && v.duration) $('labSeek').value = Math.round(v.currentTime/v.duration*1000); }
+function labReset(){ vids().forEach(v=>{ v.pause(); v.currentTime=0; }); labPlaying=false; $('labSeek').value=0; $('labPlayBtn').innerHTML='<i data-lucide="play" class="w-4 h-4"></i> تشغيل متزامن'; icons(); }
+
+// =========================================================
+// 3) الملعب الرقمي QR
+// =========================================================
+const QR = [
+  { id:'01', name:'ركن القفز', icon:'zap', pts:20, kind:'timer', secs:60, task:'نفّذي 30 قفزة نجمية (Jumping Jacks) خلال 60 ثانية.', tips:['هبوط خفيف على مشط القدم','الذراعان فوق الرأس بالكامل','تنفّس منتظم'] },
+  { id:'02', name:'ركن السلة', icon:'circle-dot', pts:15, kind:'skill', task:'نفّذي 20 تمريرة صدرية مع زميلتكِ من مسافة 3 أمتار.', tips:['الكرة أمام الصدر والأصابع منتشرة','ادفعي بالذراعين مع خطوة للأمام','الإبهامان للأسفل في نهاية التمريرة'] },
+  { id:'03', name:'ركن المعرفة', icon:'brain', pts:10, kind:'q', task:'كم دقيقة من النشاط البدني اليومي توصي بها منظمة الصحة العالمية للمراهقين؟', opts:['15 دقيقة','30 دقيقة','60 دقيقة','120 دقيقة'], ans:2 },
+  { id:'04', name:'ركن التوازن', icon:'scale', pts:15, kind:'timer', secs:30, task:'قفي على قدم واحدة 30 ثانية، ثم كرري على القدم الأخرى.', tips:['ثبّتي نظركِ على نقطة أمامكِ','شدّي عضلات البطن','ارفعي الذراعين جانباً للتوازن'] },
+  { id:'05', name:'ركن الطائرة', icon:'circle', pts:20, kind:'skill', task:'نفّذي 10 تمريرات بالأصابع فوق الرأس دون سقوط الكرة.', tips:['اليدان على شكل مثلث فوق الجبهة','ثني الركبتين قبل التمرير','الدفع بالأصابع لا بالكفّين'] },
+  { id:'06', name:'ركن الإسعاف', icon:'cross', pts:10, kind:'q', task:'عند حدوث نزيف من الأنف (رعاف) أثناء الحصة، ما الإجراء الصحيح؟', opts:['إمالة الرأس للخلف','إمالة الرأس للأمام والضغط على الجزء اللين من الأنف','الاستلقاء على الظهر','مواصلة التمرين'], ans:1 },
+  { id:'07', name:'ركن البلانك', icon:'timer', pts:25, kind:'timer', secs:45, task:'اثبتي في وضعية البلانك على الساعدين لمدة 45 ثانية.', tips:['الجسم في خط مستقيم من الرأس للكعبين','لا ترفعي الحوض ولا تُنزليه','تنفّسي ولا تحبسي النفس'] },
+  { id:'08', name:'ركن الإطالة', icon:'stretch-horizontal', pts:15, kind:'skill', task:'أدّي روتين إطالة لعضلات الفخذ الخلفية والسمانة (20 ثانية لكل عضلة).', tips:['إطالة ثابتة بلا ارتداد','الشعور بشدّ لطيف دون ألم','بعد التمرين وليس قبله مباشرة'] },
+];
+function renderQR(){
+  const u = me();
+  $('qrGrid').innerHTML = QR.map(q => {
+    const done = u && u.qr_done.includes(q.id);
+    return `<div class="card p-5 flex flex-col ${done?'ring-2 ring-emerald-400':''}">
+      <div class="flex items-center justify-between mb-3">
+        <div class="flex items-center gap-2"><div class="w-9 h-9 rounded-xl ${done?'bg-emerald-100 text-emerald-600':'bg-cyan-50 text-brand-tealDark'} flex items-center justify-center"><i data-lucide="${done?'check':'map-pin'}" class="w-4 h-4"></i></div><span class="font-black text-slate-900">${q.name}</span></div>
+        <span class="chip bg-amber-50 text-amber-700">${q.pts} نقطة</span>
+      </div>
+      <div class="bg-white border border-slate-100 rounded-2xl p-3 flex items-center justify-center mb-3"><div id="qrc-${q.id}" class="w-28 h-28 [&_img]:w-full [&_canvas]:w-full"></div></div>
+      <div class="text-center font-mono text-xs text-slate-400 mb-3" dir="ltr">DSA-QR-${q.id}</div>
+      <div class="mt-auto grid grid-cols-[1fr_auto] gap-2">
+        <button onclick="openQR('${q.id}')" class="btn ${done?'btn-ghost':'btn-primary'} py-2.5 text-sm"><i data-lucide="${done?'rotate-ccw':'scan-line'}" class="w-4 h-4"></i> ${done?'أعيدي التحدي':'امسحي وابدئي'}</button>
+        <button onclick="downloadQR('${q.id}')" class="btn btn-ghost px-3" title="تحميل بطاقة الرمز للطباعة"><i data-lucide="download" class="w-4 h-4"></i></button>
+      </div></div>`;
+  }).join('');
+  QR.forEach(q => { try{ new QRCode($('qrc-'+q.id), { text:'DSA-QR-'+q.id, width:224, height:224, colorDark:'#3b0764', colorLight:'#ffffff', correctLevel:QRCode.CorrectLevel.M }); }catch(e){} });
+  icons();
+}
+function qrByCode(e){
+  e.preventDefault(); const v = $('qrCodeInput').value.trim().toUpperCase();
+  const m = v.match(/(\d{1,2})$/); const q = m && QR.find(x=>x.id===m[1].padStart(2,'0'));
+  if(!q || !v.startsWith('DSA')) return toast('رمز غير صحيح. مثال: DSA-QR-03', 'warn');
+  $('qrCodeInput').value = ''; openQR(q.id);
+}
+let timerH = null;
+function stopTimer(){ clearInterval(timerH); timerH = null; }
+function openQR(id){
+  const q = QR.find(x=>x.id===id);
+  const head = `<div class="flex items-center gap-3 mb-4"><div class="w-12 h-12 rounded-2xl grad text-white flex items-center justify-center"><i data-lucide="${q.icon}" class="w-6 h-6"></i></div>
+    <div><span class="chip bg-cyan-50 text-brand-tealDark">محطة DSA-QR-${q.id}</span><h3 class="text-xl font-black text-slate-900 mt-1">${q.name}</h3></div></div>
+    <p class="text-slate-700 font-bold leading-relaxed mb-4">${q.task}</p>`;
+  let body = '';
+  if(q.kind === 'q'){
+    body = `<div class="space-y-2" id="qrOpts">${q.opts.map((o,i)=>`<button class="opt" onclick="qrAnswer('${id}',${i},this)">${o}</button>`).join('')}</div>`;
+  } else {
+    body = `<div class="bg-slate-50 rounded-2xl p-4 border border-slate-200 mb-4"><div class="text-xs font-bold text-slate-500 mb-2">نقاط الأداء الصحيح</div>
+      <ul class="space-y-1.5 text-sm text-slate-700">${q.tips.map(t=>`<li class="flex gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-brand-purple shrink-0 mt-0.5"></i>${t}</li>`).join('')}</ul></div>` +
+      (q.kind==='timer' ? `<div class="text-center mb-4"><div id="qrTimer" class="text-6xl font-black grad-text tabular-nums">${q.secs}</div><div class="text-xs text-slate-500 font-bold">ثانية</div></div>
+        <button id="qrStart" onclick="qrStartTimer('${id}')" class="btn btn-ghost w-full py-3 mb-2"><i data-lucide="play" class="w-4 h-4"></i> ابدئي المؤقت</button>` : '') +
+      `<button onclick="qrComplete('${id}')" class="btn btn-primary w-full py-3.5"><i data-lucide="check" class="w-4 h-4"></i> أنجزتُ التحدي</button>`;
+  }
+  openGeneric(head + body);
+}
+function qrStartTimer(id){
+  const q = QR.find(x=>x.id===id); let t = q.secs; stopTimer(); $('qrStart').disabled = true; $('qrStart').classList.add('opacity-50');
+  timerH = setInterval(()=>{ t--; const el = $('qrTimer'); if(!el) return stopTimer(); el.textContent = t;
+    if(t<=0){ stopTimer(); el.textContent='✓'; toast('انتهى الوقت! أكّدي إنجاز التحدي', 'info'); } }, 1000);
+}
+function qrAnswer(id, i, btn){
+  const q = QR.find(x=>x.id===id);
+  document.querySelectorAll('#qrOpts .opt').forEach((b,j)=>{ b.disabled = true; if(j===q.ans) b.classList.add('correct'); });
+  if(i === q.ans){ setTimeout(()=>qrComplete(id), 700); } else { btn.classList.add('wrong'); toast('إجابة غير صحيحة — حاولي مرة أخرى لاحقاً', 'warn'); }
+}
+async function qrComplete(id){
+  stopTimer();
+  if(!requireLogin('سجّلي الدخول لاحتساب نقاط التحدي')){ closeModal('genericModal'); return; }
+  const r = await api('/api/qr/complete/', { method:'POST', data:{ station_id:id } });
+  closeGeneric();
+  if(!r.ok) return toast(r.error, 'warn');
+  ME = r.user; renderQR(); switchLeaderboard(lbMode);
+  if(r.added) toast(`+${r.added} نقطة! إجمالي نقاطكِ ${ME.qr_points} 🏅`);
+  else toast('أحسنتِ! سبق احتساب نقاط هذه المحطة', 'info');
+}
+async function downloadQR(id){
+  const q = QR.find(x=>x.id===id); await document.fonts.ready;
+  const cv = document.createElement('canvas'); cv.width = 800; cv.height = 1000; const x = cv.getContext('2d');
+  const g = x.createLinearGradient(0,0,800,0); g.addColorStop(0,'#7c3aed'); g.addColorStop(1,'#06b6d4');
+  x.fillStyle = '#fff'; x.fillRect(0,0,800,1000); x.fillStyle = g; x.fillRect(0,0,800,170); x.fillRect(0,960,800,40);
+  x.direction='rtl'; x.textAlign='center'; x.fillStyle='#fff'; x.font='900 52px Tajawal'; x.fillText('أكاديمية الرياضة الرقمية', 400, 100);
+  x.font='700 28px Tajawal'; x.fillText('الملعب الرقمي QR', 400, 145);
+  x.fillStyle='#0f172a'; x.font='900 60px Tajawal'; x.fillText(q.name, 400, 260);
+  const src = $('qrc-'+id).querySelector('canvas'); if(src) x.drawImage(src, 200, 300, 400, 400);
+  x.font='700 34px monospace'; x.fillStyle='#64748b'; x.fillText('DSA-QR-'+id, 400, 760);
+  x.font='800 34px Tajawal'; x.fillStyle='#5b21b6'; x.fillText(`امسحي الرمز واكسبي ${q.pts} نقطة`, 400, 840);
+  cv.toBlob(b => offerDownload(`بطاقة-QR-${id}.png`, b), 'image/png');
+}
+
+// =========================================================
+// 4) المدربة الذكية
+// =========================================================
+let chatBusy = false;
+function updateCoachStatus(){ const s = $('coachStatus'); if(s) s.textContent = 'متصلة الآن • مدعومة بـ Gemini'; }
+function mdLite(t){
+  return esc(t).replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/^#{1,4}\s*(.+)$/gm,'<strong>$1</strong>').replace(/^\s*[-•*]\s+/gm,'• ').replace(/\n/g,'<br>');
+}
+function bubble(role, html, id){
+  const box = $('chatMessages');
+  const el = document.createElement('div');
+  el.className = 'flex items-start gap-3 animate-fadeUp ' + (role==='user' ? 'justify-start flex-row-reverse' : '');
+  el.innerHTML = role === 'user'
+    ? `<div class="bg-brand-purple text-white p-3.5 rounded-2xl rounded-tl-none shadow-sm max-w-[80%] leading-relaxed">${html}</div>`
+    : `<div class="w-8 h-8 rounded-xl grad text-white flex items-center justify-center shrink-0 mt-1"><i data-lucide="sparkles" class="w-4 h-4"></i></div>
+       <div ${id?`id="${id}"`:''} class="chat-md bg-white p-3.5 rounded-2xl rounded-tr-none shadow-sm border border-slate-100 text-slate-700 max-w-[85%] leading-relaxed">${html}</div>`;
+  box.appendChild(el); icons(); box.scrollTop = box.scrollHeight; return el;
+}
+function renderChatIntro(){
+  $('chatMessages').innerHTML = ''; const u = me(); updateCoachStatus();
+  bubble('ai', u ? `أهلاً بكِ يا <strong>${esc(u.name.split(' ')[0])}</strong>! أنا مدربتكِ الذكية في <strong>أكاديمية الرياضة الرقمية</strong> 💪 اسأليني عن أداء التمارين بشكل صحيح، أو التغذية قبل الرياضة، أو الإسعافات الأولية.`
+    : `أهلاً بكِ يا بطلة! 👋 أنا مدربة <strong>أكاديمية الرياضة الرقمية</strong>.<br>المحادثة متاحة للطالبات المسجّلات فقط حتى نحفظ سجلّكِ ونتابع تقدّمكِ.<br><button onclick="openAuth('login')" class="btn btn-primary px-4 py-2 text-xs mt-3">تسجيل الدخول للمحادثة</button>`);
+}
+function clearChat(){ renderChatIntro(); }
+function quickPrompt(t){ $('chatInput').value = t; handleChatSubmit(new Event('submit')); }
+async function handleChatSubmit(e){
+  e.preventDefault();
+  const input = $('chatInput'), text = input.value.trim();
+  if(!text || chatBusy) return;
+  if(!me()){ toast('المدربة الذكية متاحة للطالبات المسجّلات', 'info'); openAuth('login'); return; }
+  input.value = ''; bubble('user', esc(text));
+  chatBusy = true; $('chatSend').disabled = true;
+  const id = 'ai-' + Date.now();
+  bubble('ai', '<span class="typing"><span></span><span></span><span></span></span>', id);
+  const r = await api('/api/ai-trainer/', { method:'POST', data:{ message:text } });
+  const el = $(id);
+  if(el) el.innerHTML = r.ok ? mdLite(r.reply) : `<span class="text-red-600">⚠️ ${esc(r.error)}</span>`;
+  if(r.ok && r.live && ME) ME.chats++;
+  chatBusy = false; $('chatSend').disabled = false; $('chatMessages').scrollTop = 1e9;
+}
+
+// =========================================================
+// 5) المسابقة
+// =========================================================
+const QUIZ = [
+  { q:'كم عدد لاعبات الفريق الواحد داخل ملعب كرة الطائرة؟', o:['5','6','7','9'], a:1, e:'يتكون فريق الكرة الطائرة داخل الملعب من 6 لاعبات.' },
+  { q:'كم عدد لاعبات الفريق داخل ملعب كرة السلة؟', o:['5','6','7','11'], a:0, e:'لكل فريق 5 لاعبات داخل الملعب.' },
+  { q:'كم نقطة تُحتسب للتصويبة الناجحة من خارج القوس في كرة السلة؟', o:['1','2','3','4'], a:2, e:'التصويبة من خارج قوس الثلاث نقاط تُحتسب بـ 3 نقاط.' },
+  { q:'كم نقطة يحتاجها الفريق للفوز بالشوط (غير الحاسم) في كرة الطائرة؟', o:['15','21','25','30'], a:2, e:'الشوط يُحسم عند 25 نقطة بفارق نقطتين على الأقل.' },
+  { q:'ما المدة المناسبة للإحماء قبل التمرين؟', o:['دقيقة واحدة','5 إلى 10 دقائق','30 دقيقة','لا حاجة للإحماء'], a:1, e:'5–10 دقائق ترفع حرارة العضلات وتقلل خطر الإصابة.' },
+  { q:'ماذا يعني الحرف R الأول في بروتوكول RICE للإصابات؟', o:['الجري','الراحة (Rest)','الإنعاش','التكرار'], a:1, e:'RICE = الراحة، الثلج، الضغط، الرفع.' },
+  { q:'ما أفضل مصدر للطاقة السريعة قبل الحصة الرياضية؟', o:['الكربوهيدرات','الدهون المشبعة','المشروبات الغازية','الوجبات المقلية'], a:0, e:'الكربوهيدرات (موز، تمر، خبز أسمر) مصدر الطاقة الأسرع للعضلات.' },
+  { q:'متى يجب شرب الماء خلال النشاط الرياضي؟', o:['بعد التمرين فقط','عند الشعور بالعطش فقط','قبل التمرين وأثناءه وبعده','لا يُنصح بشرب الماء'], a:2, e:'الترطيب المستمر يحافظ على الأداء ويمنع الإجهاد الحراري.' },
+  { q:'عند حدوث رعاف (نزيف الأنف)، ما الوضعية الصحيحة للرأس؟', o:['للخلف','للأمام مع الضغط على الأنف','الاستلقاء','لا يهم'], a:1, e:'إمالة الرأس للأمام تمنع بلع الدم، مع الضغط على الجزء اللين من الأنف.' },
+  { q:'كم دقيقة نشاط بدني يومي توصي بها منظمة الصحة العالمية للمراهقين في المتوسط؟', o:['20','45','60','90'], a:2, e:'60 دقيقة يومياً في المتوسط من النشاط المتوسط إلى العالي الشدة.' },
+];
+let qz = null;
+function quizIntro(){
+  const u = me();
+  $('quizBox').innerHTML = `<div class="text-center py-4">
+    <div class="w-20 h-20 mx-auto rounded-3xl grad text-white flex items-center justify-center mb-5 shadow-lg"><i data-lucide="trophy" class="w-10 h-10"></i></div>
+    <h3 class="text-2xl font-black text-slate-900 mb-2">هل أنتِ مستعدة للتحدي؟</h3>
+    <p class="text-slate-600 mb-6">10 أسئلة • 20 ثانية لكل سؤال • 10 نقاط لكل إجابة صحيحة</p>
+    ${u ? `<p class="text-sm font-bold text-brand-purple mb-6">أفضل نتيجة لكِ: ${u.quiz_best}%</p>` : `<p class="text-xs text-slate-400 mb-6">سجّلي الدخول لحفظ نتيجتكِ في ملفكِ.</p>`}
+    <button onclick="quizStart()" class="btn btn-primary px-10 py-4 text-lg"><i data-lucide="play" class="w-5 h-5"></i> ابدئي المسابقة</button></div>`;
+  icons();
+}
+function quizStart(){ qz = { i:0, score:0, answers:[], order: QUIZ.map((_,i)=>i).sort(()=>Math.random()-.5) }; quizQ(); }
+function quizQ(){
+  stopTimer(); const q = QUIZ[qz.order[qz.i]]; let t = 20;
+  $('quizBox').innerHTML = `
+    <div class="flex items-center justify-between mb-4"><span class="chip bg-purple-50 text-brand-purple">السؤال ${qz.i+1} من ${QUIZ.length}</span>
+      <span class="flex items-center gap-1.5 font-black text-slate-700"><i data-lucide="timer" class="w-4 h-4"></i><span id="qzT" class="tabular-nums">20</span></span></div>
+    <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden mb-6"><div id="qzBar" class="h-full grad transition-all duration-1000 ease-linear" style="width:100%"></div></div>
+    <h3 class="text-xl sm:text-2xl font-black text-slate-900 mb-6 leading-relaxed">${q.q}</h3>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="qzOpts">${q.o.map((o,i)=>`<button class="opt" onclick="quizAnswer(${i})">${o}</button>`).join('')}</div>
+    <div id="qzExp" class="mt-5"></div>`;
+  icons();
+  timerH = setInterval(()=>{ t--; const el=$('qzT'); if(!el) return stopTimer(); el.textContent=t; $('qzBar').style.width=(t/20*100)+'%'; if(t<=0){ quizAnswer(-1); } }, 1000);
+}
+function quizAnswer(i){
+  stopTimer(); const q = QUIZ[qz.order[qz.i]]; const ok = i === q.a;
+  if(ok) qz.score++; qz.answers.push(ok);
+  document.querySelectorAll('#qzOpts .opt').forEach((b,j)=>{ b.disabled=true; if(j===q.a) b.classList.add('correct'); else if(j===i) b.classList.add('wrong'); });
+  $('qzExp').innerHTML = `<div class="p-4 rounded-2xl ${ok?'bg-emerald-50 border border-emerald-200 text-emerald-800':'bg-amber-50 border border-amber-200 text-amber-800'} text-sm font-bold mb-4">${ok?'✅ إجابة صحيحة! ':i===-1?'⏰ انتهى الوقت. ':'❌ ليست الإجابة الصحيحة. '}${q.e}</div>
+    <button onclick="quizNext()" class="btn btn-primary w-full py-3">${qz.i < QUIZ.length-1 ? 'السؤال التالي' : 'عرض النتيجة'} <i data-lucide="arrow-left" class="w-4 h-4"></i></button>`;
+  icons();
+}
+function quizNext(){ qz.i++; if(qz.i < QUIZ.length) quizQ(); else quizEnd(); }
+async function quizEnd(){
+  const pct = Math.round(qz.score/QUIZ.length*100), u = me(); let msg = '';
+  if(u){
+    const r = await api('/api/quiz/', { method:'POST', data:{ score:qz.score, total:QUIZ.length } });
+    if(r.ok){ ME = r.user; if(r.record) msg = 'رقم قياسي جديد لكِ! 🎉'; }
+  }
+  $('quizBox').innerHTML = `<div class="text-center py-4">
+    <div class="text-6xl mb-3">${pct>=80?'🏆':pct>=50?'⭐':'💪'}</div>
+    <h3 class="text-3xl font-black text-slate-900 mb-1">${qz.score} / ${QUIZ.length}</h3>
+    <p class="text-lg font-bold grad-text mb-2">${pct>=80?'ممتاز! أنتِ عقل رياضي':pct>=50?'أداء جيد، واصلي التعلّم':'لا بأس، المحاولة القادمة أفضل'}</p>
+    ${msg?`<p class="text-sm font-bold text-emerald-600 mb-2">${msg}</p>`:''}
+    ${!u?`<p class="text-xs text-slate-400 mb-2">سجّلي الدخول لحفظ نتيجتكِ.</p>`:''}
+    <div class="flex justify-center gap-1.5 my-6">${qz.answers.map(a=>`<span class="w-6 h-2.5 rounded-full ${a?'bg-emerald-400':'bg-red-300'}"></span>`).join('')}</div>
+    <div class="flex gap-3 justify-center"><button onclick="quizStart()" class="btn btn-primary px-6 py-3"><i data-lucide="rotate-ccw" class="w-4 h-4"></i> إعادة المسابقة</button>
+    <a href="#steps" class="btn btn-ghost px-6 py-3">لوحة الشرف</a></div></div>`;
+  icons();
+}
+
+function stopSpeech(){ try{ speechSynthesis.cancel(); }catch(e){} }
+
+// ---------- التنقل بين الصفحات ----------
+const VIEWS = ['home','steps','lab','qr','quiz','podcast'];
+function route(){
+  let h = (location.hash || '#home').slice(1), anchor = null;
+  if(h === 'about'){ h = 'home'; anchor = 'about'; }
+  if(!VIEWS.includes(h)) h = 'home';
+  document.querySelectorAll('.view').forEach(v => v.classList.toggle('active', v.dataset.view === h));
+  const navKey = anchor || h;
+  document.querySelectorAll('[data-nav]').forEach(a => a.classList.toggle('nav-on', a.dataset.nav === navKey));
+  $('mobileMenu').classList.add('hidden');
+  if(anchor) setTimeout(()=>$(anchor).scrollIntoView({ behavior:'smooth', block:'start' }), 40);
+  else { window.scrollTo(0, 0); setTimeout(() => window.scrollTo(0, 0), 30); }
+  if(h === 'steps'){ renderSteps(); switchLeaderboard(lbMode); }
+  if(h === 'quiz' && (!qz || $('quizBox').innerHTML === '')) quizIntro();
+  icons();
+}
+window.addEventListener('hashchange', route);
+
+// ---------- المدربة العائمة ----------
+function toggleCoach(open){
+  const p = $('coachPanel'); const show = open === undefined ? p.classList.contains('hidden') : open;
+  p.classList.toggle('hidden', !show); p.classList.toggle('flex', show);
+  $('fabIcon').innerHTML = show ? '<i data-lucide="x" class="w-7 h-7"></i>' : '<i data-lucide="bot" class="w-8 h-8"></i>';
+  icons(); if(show){ setTimeout(()=>{ $('chatInput').focus(); $('chatMessages').scrollTop = 1e9; }, 80); }
+}
+
+// ---------- فريق العمل ----------
+const TEAM = [];
+function renderTeam(){
+  $('heroTeam') && ($('heroTeam').innerHTML = TEAM.map(n=>`<span class="px-3 py-1.5 rounded-full bg-white/10 border border-white/20 backdrop-blur text-sm font-bold text-white">${n}</span>`).join(''));
+  const cols = ['from-violet-500 to-purple-600','from-cyan-400 to-teal-500','from-fuchsia-500 to-violet-600','from-sky-400 to-cyan-500','from-purple-500 to-indigo-600','from-teal-400 to-cyan-600'];
+  if($('teamGrid')) $('teamGrid').innerHTML = TEAM.map((n,i)=>`<div class="text-center rounded-2xl bg-slate-50 border border-slate-200/70 p-4 hover:shadow-md hover:-translate-y-0.5 transition">
+    <div class="w-16 h-16 mx-auto rounded-full bg-gradient-to-br ${cols[i]} text-white flex items-center justify-center text-2xl font-black shadow mb-3">${n.trim()[0]}</div>
+    <div class="font-black text-slate-900 text-sm">أ. ${n}</div><div class="text-xs text-slate-500 mt-0.5">عضوة فريق العمل</div></div>`).join('');
+}
+
+// =========================================================
+// التشغيل
+// =========================================================
+function refreshAll(){
+  renderNavbar(); switchLeaderboard(lbMode); renderSteps(); renderQR(); renderLabHistory(); renderChatIntro(); if(!qz) quizIntro();
+}
+document.addEventListener('keydown', e => { if(e.key === 'Escape'){ toggleCoach(false); ['authModal','profileModal'].forEach(closeModal); closeGeneric(); } });
+window.addEventListener('DOMContentLoaded', async () => {
+  renderTeam(); renderLabCriteria(); labSpeed(0.5); route();
+  await loadMe(); refreshAll();
+});
+</script>
+</body>
+</html>
+
